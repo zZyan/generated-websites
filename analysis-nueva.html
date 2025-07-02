@@ -456,10 +456,17 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
 
-            const openMenu = () => { mobileMenu.classList.remove('hidden'); };
-            const closeMenu = () => { mobileMenu.classList.add('hidden'); };
+            const toggleMenu = () => {
+                mobileMenu.classList.toggle('hidden');
+            };
 
-            menuBtn.addEventListener('click', openMenu);
+            const closeMenu = () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            };
+
+            menuBtn.addEventListener('click', toggleMenu);
             closeMenuBtn.addEventListener('click', closeMenu);
             mobileMenuLinks.forEach(link => link.addEventListener('click', closeMenu));
 
