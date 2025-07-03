@@ -60,9 +60,15 @@
         .accordion-toggle { cursor: pointer; transition: background-color 0.2s; }
         .accordion-arrow { transition: transform 0.3s ease; }
         .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.5s ease-out, padding 0.5s ease-out; }
+        .full-analysis-content { overflow: hidden; max-height: 0; transition: max-height 0.8s ease-in-out, margin 0.8s ease-in-out, opacity 0.8s ease-in-out; }
         
         .mobile-menu { transition: opacity 0.3s ease; }
         .mobile-menu.hidden { opacity: 0; pointer-events: none; }
+
+        .lang-switch button.active {
+            background-color: var(--color-border);
+            color: white;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -70,17 +76,25 @@
     <nav class="sticky top-0 z-50 bg-[var(--color-bg)]/80 backdrop-blur-md border-b-4 border-[var(--color-border)]">
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-16">
-                <a href="#" class="text-2xl font-serif font-bold text-[var(--color-border)]">Nueva Analysis</a>
+                <a href="#" class="text-2xl font-serif font-bold text-[var(--color-border)]" data-key="navTitle">Nueva Analysis</a>
                 
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="#philosophy" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider">Philosophy</a>
-                    <a href="#stem" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider">STEM</a>
-                    <a href="#admissions" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider">Admissions</a>
-                    <a href="#comparison" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider">Comparison</a>
-                    <a href="#deconstructed" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider">DIY Model</a>
+                    <a href="#philosophy" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider" data-key="navPhilosophy">Philosophy</a>
+                    <a href="#stem" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider" data-key="navStem">STEM</a>
+                    <a href="#admissions" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider" data-key="navAdmissions">Admissions</a>
+                    <a href="#comparison" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider" data-key="navComparison">Comparison</a>
+                    <a href="#deconstructed" class="text-black hover:text-[var(--color-primary)] font-bold text-sm uppercase tracking-wider" data-key="navDiy">DIY Model</a>
+                    <div class="lang-switch flex border-2 border-black">
+                        <button id="lang-en" class="px-2 py-1 text-xs font-bold">EN</button>
+                        <button id="lang-zh" class="px-2 py-1 text-xs font-bold border-l-2 border-black">ZH</button>
+                    </div>
                 </div>
                 
-                <div class="md:hidden">
+                <div class="md:hidden flex items-center gap-4">
+                    <div class="lang-switch flex border-2 border-black">
+                        <button id="lang-en-mobile" class="px-2 py-1 text-xs font-bold">EN</button>
+                        <button id="lang-zh-mobile" class="px-2 py-1 text-xs font-bold border-l-2 border-black">ZH</button>
+                    </div>
                     <button id="menu-btn" class="text-black focus:outline-none p-1">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
@@ -89,113 +103,121 @@
         </div>
     </nav>
     
-    <div id="mobile-menu" class="mobile-menu hidden fixed inset-0 bg-[var(--color-bg)] z-50 flex flex-col items-center justify-center space-y-6">
+    <div id="mobile-menu" class="mobile-menu hidden fixed inset-0 bg-[var(--color-bg)] z-40 flex flex-col items-center justify-center space-y-6">
         <button id="close-menu-btn" class="absolute top-6 right-6 text-black p-2">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <a href="#philosophy" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2">Philosophy</a>
-        <a href="#stem" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2">STEM</a>
-        <a href="#admissions" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2">Admissions</a>
-        <a href="#comparison" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2">Comparison</a>
-        <a href="#deconstructed" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2">DIY Model</a>
+        <a href="#philosophy" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2" data-key="navPhilosophy">Philosophy</a>
+        <a href="#stem" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2" data-key="navStem">STEM</a>
+        <a href="#admissions" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2" data-key="navAdmissions">Admissions</a>
+        <a href="#comparison" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2" data-key="navComparison">Comparison</a>
+        <a href="#deconstructed" class="mobile-menu-link text-3xl font-serif hover:text-[var(--color-primary)] p-2" data-key="navDiy">DIY Model</a>
     </div>
 
     <div class="container mx-auto p-4 md:p-8">
         
         <header class="text-center my-16 md:my-24 scroll-reveal">
-            <h1 class="text-5xl sm:text-6xl md:text-7xl font-serif font-bold mb-4 tracking-tight">Deconstructing Genius</h1>
-            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-700">An interactive analysis of The Nueva School's paradigm for gifted education, exploring how it became America's #1 STEM school by building a culture of creativity and compassion, not competition.</p>
+            <h1 class="text-5xl sm:text-6xl md:text-7xl font-serif font-bold mb-4 tracking-tight" data-key="headerTitle">Deconstructing Genius</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-700" data-key="headerSubtitle">An interactive analysis of The Nueva School's paradigm for gifted education, exploring how it became America's #1 STEM school by building a culture of creativity and compassion, not competition.</p>
         </header>
 
         <main>
             <section id="philosophy" class="mb-20 md:mb-28 scroll-reveal">
-                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12">The Blueprint: <span class="text-[var(--color-primary)]">A Beloved Community</span></h2>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12" data-key="philosophyTitle">The Blueprint: <span class="text-[var(--color-primary)]">A Beloved Community</span></h2>
                 <div class="bg-white p-6 md:p-8 border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
-                    <h3 class="text-3xl md:text-4xl font-serif font-bold text-center mb-10">The Three Pillars</h3>
+                    <h3 class="text-3xl md:text-4xl font-serif font-bold text-center mb-10" data-key="philosophyPillarsTitle">The Three Pillars</h3>
                     
                     <div class="mb-8 border-b-4 border-black flex justify-center">
-                        <button class="tab-button px-4 py-3 text-sm md:text-base font-bold uppercase tracking-wider -mb-1 border-4 border-b-0 border-black transition" data-tab="design-thinking">Design Thinking</button>
-                        <button class="tab-button px-4 py-3 text-sm md:text-base font-bold uppercase tracking-wider -mb-1 border-y-4 border-r-4 border-black transition" data-tab="sel">SEL</button>
-                        <button class="tab-button px-4 py-3 text-sm md:text-base font-bold uppercase tracking-wider -mb-1 border-y-4 border-r-4 border-black transition" data-tab="inquiry">Inquiry</button>
+                        <button class="tab-button px-4 py-3 text-sm md:text-base font-bold uppercase tracking-wider -mb-1 border-4 border-b-0 border-black transition" data-tab="design-thinking" data-key="pillar1Tab">Design Thinking</button>
+                        <button class="tab-button px-4 py-3 text-sm md:text-base font-bold uppercase tracking-wider -mb-1 border-y-4 border-r-4 border-black transition" data-tab="sel" data-key="pillar2Tab">SEL</button>
+                        <button class="tab-button px-4 py-3 text-sm md:text-base font-bold uppercase tracking-wider -mb-1 border-y-4 border-r-4 border-black transition" data-tab="inquiry" data-key="pillar3Tab">Inquiry</button>
                     </div>
 
                     <div id="design-thinking" class="tab-content">
                          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                              <div>
-                                <h4 class="text-2xl font-serif font-bold text-[var(--color-primary)] mb-3">Pillar 1: Design Thinking</h4>
-                                <p class="leading-relaxed">A human-centered problem-solving mindset. An iterative cycle: identify, prototype, feedback, test. The goal is for this process to become the "way they think."</p>
+                                <h4 class="text-2xl font-serif font-bold text-[var(--color-primary)] mb-3" data-key="pillar1Title">Pillar 1: Design Thinking</h4>
+                                <p class="leading-relaxed" data-key="pillar1Desc">A human-centered problem-solving mindset. An iterative cycle: identify, prototype, feedback, test. The goal is for this process to become the 'way they think.'</p>
                              </div>
                              <div class="p-4 bg-[var(--color-secondary)] border-2 border-black">
-                                <h5 class="font-bold mb-2 uppercase text-sm">Evidence: The I-Lab</h5>
-                                <p class="font-bold text-lg">The Innovation Lab</p>
-                                <p class="text-sm">A makerspace where students "play, design, make." 72% of students use the lab weekly for personal projects and advanced engineering.</p>
+                                <h5 class="font-bold mb-2 uppercase text-sm" data-key="pillar1EvidenceTitle">Evidence: The I-Lab</h5>
+                                <p class="font-bold text-lg" data-key="pillar1EvidenceSub">The Innovation Lab</p>
+                                <p class="text-sm" data-key="pillar1EvidenceDesc">A makerspace where students 'play, design, make.' 72% of students use the lab weekly for personal projects and advanced engineering.</p>
                              </div>
                          </div>
                     </div>
                     <div id="sel" class="tab-content hidden">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                              <div>
-                                <h4 class="text-2xl font-serif font-bold text-[var(--color-primary)] mb-3">Pillar 2: SEL</h4>
-                                <p class="leading-relaxed">A formal, required academic discipline. Empathy and perspective-taking are not ancillary; they are the foundation for collaboration and the "empathy" stage of Design Thinking.</p>
+                                <h4 class="text-2xl font-serif font-bold text-[var(--color-primary)] mb-3" data-key="pillar2Title">Pillar 2: SEL</h4>
+                                <p class="leading-relaxed" data-key="pillar2Desc">A formal, required academic discipline. Empathy and perspective-taking are not ancillary; they are the foundation for collaboration and the 'empathy' stage of Design Thinking.</p>
                              </div>
                              <div class="p-4 bg-[var(--color-accent)] border-2 border-black">
-                                <h5 class="font-bold mb-2 uppercase text-sm">Evidence: Core Coursework</h5>
-                                <p class="font-bold text-lg">"Science of Mind" & "Ethics"</p>
-                                <p class="text-sm">Required Upper School classes that directly fuse the development of high emotional intelligence (EQ) with high IQ.</p>
+                                <h5 class="font-bold mb-2 uppercase text-sm" data-key="pillar2EvidenceTitle">Evidence: Core Coursework</h5>
+                                <p class="font-bold text-lg" data-key="pillar2EvidenceSub">"Science of Mind" & "Ethics"</p>
+                                <p class="text-sm" data-key="pillar2EvidenceDesc">Required Upper School classes that directly fuse the development of high emotional intelligence (EQ) with high IQ.</p>
                              </div>
                          </div>
                     </div>
                     <div id="inquiry" class="tab-content hidden">
                          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                              <div>
-                                <h4 class="text-2xl font-serif font-bold text-[var(--color-primary)] mb-3">Pillar 3: Inquiry</h4>
-                                <p class="leading-relaxed">Harnessing intrinsic motivation as the "engine for academic excellence." Student-driven curriculum de-emphasizes GPA to create space for genuine curiosity.</p>
+                                <h4 class="text-2xl font-serif font-bold text-[var(--color-primary)] mb-3" data-key="pillar3Title">Pillar 3: Inquiry</h4>
+                                <p class="leading-relaxed" data-key="pillar3Desc">Harnessing intrinsic motivation as the 'engine for academic excellence.' Student-driven curriculum de-emphasizes GPA to create space for genuine curiosity.</p>
                              </div>
                              <div class="p-4 bg-[var(--color-highlight)] text-white border-2 border-black">
-                                <h5 class="font-bold mb-2 uppercase text-sm">Evidence: The Quest</h5>
-                                <p class="font-bold text-lg">The Quest Program</p>
-                                <p class="text-sm opacity-90">A required, multi-year, self-directed research project where students pursue a personal passion with expert mentorship.</p>
+                                <h5 class="font-bold mb-2 uppercase text-sm" data-key="pillar3EvidenceTitle">Evidence: The Quest</h5>
+                                <p class="font-bold text-lg" data-key="pillar3EvidenceSub">The Quest Program</p>
+                                <p class="text-sm opacity-90" data-key="pillar3EvidenceDesc">A required, multi-year, self-directed research project where students pursue a personal passion with expert mentorship.</p>
                              </div>
                          </div>
+                    </div>
+
+                    <div class="text-center mt-8">
+                         <button class="full-analysis-toggle px-4 py-2 bg-gray-200 border-2 border-black text-black font-bold text-sm uppercase hover:bg-gray-300 transition" data-target="philosophy-full-analysis" data-key="readFullAnalysisBtn">Read Full Analysis</button>
+                    </div>
+                </div>
+                <div id="philosophy-full-analysis" class="full-analysis-content mt-0 opacity-0 bg-white p-6 md:p-8 border-4 border-black border-t-0 shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
+                    <div class="prose max-w-none" data-key="philosophyFullAnalysis">
                     </div>
                 </div>
             </section>
 
             <section id="stem" class="mb-20 md:mb-28 scroll-reveal">
-                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12">Anatomy of a <span class="text-[var(--color-primary)]">STEM Powerhouse</span></h2>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12" data-key="stemTitle">Anatomy of a <span class="text-[var(--color-primary)]">STEM Powerhouse</span></h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="bg-white p-6 md:p-8 border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
-                        <h3 class="text-3xl font-serif font-bold text-center mb-8">Ranking Paradox</h3>
+                        <h3 class="text-3xl font-serif font-bold text-center mb-8" data-key="stemRankingTitle">Ranking Paradox</h3>
                         <div class="space-y-6">
                             <div class="flex items-start space-x-4 p-4 border-2 border-black bg-[var(--color-secondary)]">
                                 <div class="text-3xl mt-1">🏆</div>
                                 <div>
-                                    <h4 class="font-bold text-lg uppercase">#1 in America</h4>
-                                    <p class="text-sm mb-1 font-medium">Source: Niche.com (2024)</p>
-                                    <p class="text-xs">Measures holistic experience, weighing parent/student reviews and college outcomes heavily.</p>
+                                    <h4 class="font-bold text-lg uppercase" data-key="stemRank1">#1 in America</h4>
+                                    <p class="text-sm mb-1 font-medium" data-key="stemRank1Source">Source: Niche.com (2024)</p>
+                                    <p class="text-xs" data-key="stemRank1Desc">Measures holistic experience, weighing parent/student reviews and college outcomes heavily.</p>
                                 </div>
                             </div>
                             <div class="flex items-start space-x-4 p-4 border-2 border-black bg-gray-200">
                                 <div class="text-3xl mt-1">📊</div>
                                 <div>
-                                    <h4 class="font-bold text-lg uppercase">#191 in America</h4>
-                                    <p class="text-sm mb-1 font-medium">Source: Newsweek (2020)</p>
-                                    <p class="text-xs">Measures traditional, standardized data like AP scores, which doesn't capture the post-AP model.</p>
+                                    <h4 class="font-bold text-lg uppercase" data-key="stemRank2">#191 in America</h4>
+                                    <p class="text-sm mb-1 font-medium" data-key="stemRank2Source">Source: Newsweek (2020)</p>
+                                    <p class="text-xs" data-key="stemRank2Desc">Measures traditional, standardized data like AP scores, which doesn't capture the post-AP model.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="bg-white p-6 md:p-8 flex flex-col border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
-                        <h3 class="text-3xl font-serif font-bold text-center mb-6">"Post-AP" Advantage</h3>
-                        <p class="text-center mb-6 flex-grow">Instead of a standardized AP track, Nueva offers 200+ courses. Freshmen can take Multivariable Calculus; seniors can conduct graduate-level research.</p>
+                        <h3 class="text-3xl font-serif font-bold text-center mb-6" data-key="stemAdvantageTitle">"Post-AP" Advantage</h3>
+                        <p class="text-center mb-6 flex-grow" data-key="stemAdvantageDesc">Instead of a standardized AP track, Nueva offers 200+ courses. Freshmen can take Multivariable Calculus; seniors can conduct graduate-level research.</p>
                         <div class="overflow-x-auto border-2 border-black">
                            <table class="w-full text-sm text-left">
-                                <thead class="border-b-4 border-black bg-[var(--color-text)] text-white"><tr class="uppercase text-xs"><th class="p-2 font-bold">Typical Course</th><th class="p-2 font-bold">Nueva Equivalent</th></tr></thead>
+                                <thead class="border-b-4 border-black bg-[var(--color-text)] text-white"><tr class="uppercase text-xs"><th class="p-2 font-bold" data-key="tableCol1">Typical Course</th><th class="p-2 font-bold" data-key="tableCol2">Nueva Equivalent</th></tr></thead>
                                 <tbody>
-                                    <tr class="border-b-2 border-black"><td class="p-2">AP Calculus BC</td><td class="p-2 font-bold">Differential Equations</td></tr>
-                                    <tr class="border-b-2 border-black"><td class="p-2">AP Physics C</td><td class="p-2 font-bold">Quantum Physics</td></tr>
-                                    <tr class="border-b-2 border-black"><td class="p-2">AP Biology</td><td class="p-2 font-bold">Drug Design</td></tr>
-                                    <tr><td class="p-2">AP Computer Science</td><td class="p-2 font-bold">Advanced CS Projects</td></tr>
+                                    <tr class="border-b-2 border-black"><td class="p-2" data-key="tableRow1a">AP Calculus BC</td><td class="p-2 font-bold" data-key="tableRow1b">Differential Equations</td></tr>
+                                    <tr class="border-b-2 border-black"><td class="p-2" data-key="tableRow2a">AP Physics C</td><td class="p-2 font-bold" data-key="tableRow2b">Quantum Physics</td></tr>
+                                    <tr class="border-b-2 border-black"><td class="p-2" data-key="tableRow3a">AP Biology</td><td class="p-2 font-bold" data-key="tableRow3b">Drug Design</td></tr>
+                                    <tr><td class="p-2" data-key="tableRow4a">AP Computer Science</td><td class="p-2 font-bold" data-key="tableRow4b">Advanced CS Projects</td></tr>
                                 </tbody>
                            </table>
                         </div>
@@ -204,115 +226,115 @@
             </section>
             
             <section id="admissions" class="mb-20 md:mb-28 scroll-reveal">
-                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12">The Gauntlet: <span class="text-[var(--color-primary)]">Forging an Innovator</span></h2>
+                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12" data-key="admissionsTitle">The Gauntlet: <span class="text-[var(--color-primary)]">Forging an Innovator</span></h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
                     <div class="bg-white p-6 md:p-8 border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
-                        <h3 class="text-3xl font-serif font-bold text-center mb-8">Admissions Gauntlet</h3>
+                        <h3 class="text-3xl font-serif font-bold text-center mb-8" data-key="admissionsGauntletTitle">Admissions Gauntlet</h3>
                         <div class="flex flex-col space-y-2 text-center">
-                            <div class="p-4 border-2 border-black"><h4 class="font-bold">1. Cognitive Baseline</h4><p class="text-sm">Wechsler IQ Assessment (130+ Score).</p></div>
+                            <div class="p-4 border-2 border-black"><h4 class="font-bold" data-key="gauntlet1Title">1. Cognitive Baseline</h4><p class="text-sm" data-key="gauntlet1Desc">Wechsler IQ Assessment (130+ Score).</p></div>
                             <div class="font-bold text-2xl text-black">↓</div>
-                            <div class="p-4 border-2 border-black"><h4 class="font-bold">2. "Creative Project"</h4><p class="text-sm">Submit original work to show passion.</p></div>
+                            <div class="p-4 border-2 border-black"><h4 class="font-bold" data-key="gauntlet2Title">2. "Creative Project"</h4><p class="text-sm" data-key="gauntlet2Desc">Submit original work to show passion.</p></div>
                              <div class="font-bold text-2xl text-black">↓</div>
-                            <div class="p-4 border-2 border-black"><h4 class="font-bold">3. Analytical Skills</h4><p class="text-sm">Timed exercises to assess thinking.</p></div>
+                            <div class="p-4 border-2 border-black"><h4 class="font-bold" data-key="gauntlet3Title">3. Analytical Skills</h4><p class="text-sm" data-key="gauntlet3Desc">Timed exercises to assess thinking.</p></div>
                              <div class="font-bold text-2xl text-black">↓</div>
-                            <div class="p-4 border-2 border-black"><h4 class="font-bold">4. Holistic Review</h4><p class="text-sm">Interviews and recommendations.</p></div>
+                            <div class="p-4 border-2 border-black"><h4 class="font-bold" data-key="gauntlet4Title">4. Holistic Review</h4><p class="text-sm" data-key="gauntlet4Desc">Interviews and recommendations.</p></div>
                         </div>
                     </div>
                     <div class="bg-[var(--color-text)] text-white p-6 md:p-8 border-4 border-black shadow-[8px_8px_0_0_#F4A261]">
-                        <h3 class="text-3xl font-serif font-bold text-center mb-4 text-[var(--color-secondary)]">Anatomy of a Student</h3>
-                        <p class="text-center text-sm mb-4 opacity-80">The process selects for traits that allow students to thrive in Nueva's ecosystem.</p>
+                        <h3 class="text-3xl font-serif font-bold text-center mb-4 text-[var(--color-secondary)]" data-key="anatomyTitle">Anatomy of a Student</h3>
+                        <p class="text-center text-sm mb-4 opacity-80" data-key="anatomyDesc">The process selects for traits that allow students to thrive in Nueva's ecosystem.</p>
                         <div class="chart-container"><canvas id="studentProfileChart"></canvas></div>
                     </div>
                 </div>
             </section>
             
             <section id="comparison" class="mb-20 md:mb-28 scroll-reveal">
-                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12">National <span class="text-[var(--color-primary)]">Landscape</span></h2>
+                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12" data-key="comparisonTitle">National <span class="text-[var(--color-primary)]">Landscape</span></h2>
                 <div class="bg-white p-2 md:p-4 overflow-x-auto border-4 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
                     <table class="w-full min-w-[800px] text-sm text-left">
-                        <thead class="border-b-4 border-black"><tr class="uppercase text-xs"><th class="p-3 font-bold">Metric</th><th class="p-3 font-bold">The Nueva School</th><th class="p-3 font-bold">Phillips Exeter Academy</th><th class="p-3 font-bold">TJHSST</th></tr></thead>
+                        <thead class="border-b-4 border-black"><tr class="uppercase text-xs"><th class="p-3 font-bold" data-key="compTableH1">Metric</th><th class="p-3 font-bold" data-key="compTableH2">The Nueva School</th><th class="p-3 font-bold" data-key="compTableH3">Phillips Exeter Academy</th><th class="p-3 font-bold" data-key="compTableH4">TJHSST</th></tr></thead>
                         <tbody>
-                            <tr class="border-b-2 border-black"><td class="p-3 font-bold align-top">Core Pedagogy</td><td class="p-3 align-top">Integrated Design Thinking, SEL, and inquiry-based learning.</td><td class="p-3 align-top">The Harkness Method: student-led, discussion-based Socratic dialogue.</td><td class="p-3 align-top">Structured, accelerated, lab-based curriculum with senior research project.</td></tr>
-                            <tr class="border-b-2 border-black"><td class="p-3 font-bold align-top">Environment</td><td class="p-3 align-top">Collaborative, compassionate, fostering intrinsic motivation.</td><td class="p-3 align-top">Intellectually rigorous, immersive, residential, centered on intense debate.</td><td class="p-3 align-top">Pre-professional, lab-centric, highly specialized, and focused.</td></tr>
-                            <tr class="border-b-2 border-black"><td class="p-3 font-bold align-top">Primary Skill</td><td class="p-3 align-top">Human-centered, creative innovation. A fusion of high EQ and IQ.</td><td class="p-3 align-top">Critical analysis and articulate argumentation through civil discourse.</td><td class="p-3 align-top">Advanced scientific and engineering research methodology.</td></tr>
-                            <tr><td class="p-3 font-bold align-top">Ideal Student</td><td class="p-3 align-top">A gifted, creative, systems-thinker who thrives on autonomy.</td><td class="p-3 align-top">An intellectually voracious student who thrives on rigorous debate.</td><td class="p-3 align-top">A student with a deep passion for a specific STEM field.</td></tr>
+                            <tr class="border-b-2 border-black"><td class="p-3 font-bold align-top" data-key="compTableR1H">Core Pedagogy</td><td class="p-3 align-top" data-key="compTableR1C1">Integrated Design Thinking, SEL, and inquiry-based learning.</td><td class="p-3 align-top" data-key="compTableR1C2">The Harkness Method: student-led, discussion-based Socratic dialogue.</td><td class="p-3 align-top" data-key="compTableR1C3">Structured, accelerated, lab-based curriculum with senior research project.</td></tr>
+                            <tr class="border-b-2 border-black"><td class="p-3 font-bold align-top" data-key="compTableR2H">Environment</td><td class="p-3 align-top" data-key="compTableR2C1">Collaborative, compassionate, fostering intrinsic motivation.</td><td class="p-3 align-top" data-key="compTableR2C2">Intellectually rigorous, immersive, residential, centered on intense debate.</td><td class="p-3 align-top" data-key="compTableR2C3">Pre-professional, lab-centric, highly specialized, and focused.</td></tr>
+                            <tr class="border-b-2 border-black"><td class="p-3 font-bold align-top" data-key="compTableR3H">Primary Skill</td><td class="p-3 align-top" data-key="compTableR3C1">Human-centered, creative innovation. A fusion of high EQ and IQ.</td><td class="p-3 align-top" data-key="compTableR3C2">Critical analysis and articulate argumentation through civil discourse.</td><td class="p-3 align-top" data-key="compTableR3C3">Advanced scientific and engineering research methodology.</td></tr>
+                            <tr><td class="p-3 font-bold align-top" data-key="compTableR4H">Ideal Student</td><td class="p-3 align-top" data-key="compTableR4C1">A gifted, creative, systems-thinker who thrives on autonomy.</td><td class="p-3 align-top" data-key="compTableR4C2">An intellectually voracious student who thrives on rigorous debate.</td><td class="p-3 align-top" data-key="compTableR4C3">A student with a deep passion for a specific STEM field.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
             <section id="deconstructed" class="mb-12 scroll-reveal">
-                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12">Build Your <span class="text-[var(--color-primary)]">Own Nueva</span></h2>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-center mb-12" data-key="diyTitle">Build Your <span class="text-[var(--color-primary)]">Own Nueva</span></h2>
                 
                 <div class="space-y-4 max-w-4xl mx-auto">
                     <div class="border-2 border-black">
                         <div class="accordion-toggle flex justify-between items-center w-full p-4 text-left bg-black text-white hover:bg-[var(--color-primary)]">
-                            <h3 class="text-xl font-bold uppercase">Pillar 1: Inquiry</h3>
+                            <h3 class="text-xl font-bold uppercase" data-key="diyPillar1Title">Pillar 1: Inquiry</h3>
                             <span class="accordion-arrow transform text-3xl font-mono">›</span>
                         </div>
                         <div class="accordion-content p-0 bg-white">
                              <div class="p-6">
-                                <h4 class="font-bold mb-2 uppercase">Strategy:</h4>
-                                <p class="mb-6">Replicate the "Quest" program by pursuing deep, student-driven projects and university-level coursework. Goal: create original work.</p>
-                                <h5 class="font-bold mb-3 uppercase text-sm">Online Resources:</h5>
+                                <h4 class="font-bold mb-2 uppercase" data-key="diyStrategy">Strategy:</h4>
+                                <p class="mb-6" data-key="diyPillar1Strategy">Replicate the "Quest" program by pursuing deep, student-driven projects and university-level coursework. Goal: create original work.</p>
+                                <h5 class="font-bold mb-3 uppercase text-sm" data-key="diyOnline">Online Resources:</h5>
                                 <ul class="list-disc list-inside space-y-2 mb-6">
-                                    <li><strong>Art of Problem Solving (AoPS):</strong> Rigorous, problem-based math curriculum. (Ages 10-18)</li>
-                                    <li><strong>Coursera / edX:</strong> University courses in specialized topics. (Ages 13+)</li>
-                                    <li><strong>Lumiere Education:</strong> Structured research program with PhD mentors. (High School)</li>
+                                    <li data-key="diyPillar1Online1">Art of Problem Solving (AoPS): Rigorous, problem-based math curriculum. (Ages 10-18)</li>
+                                    <li data-key="diyPillar1Online2">Coursera / edX: University courses in specialized topics. (Ages 13+)</li>
+                                    <li data-key="diyPillar1Online3">Lumiere Education: Structured research program with PhD mentors. (High School)</li>
                                 </ul>
-                                <h5 class="font-bold mb-3 uppercase text-sm">Bay Area Resources:</h5>
+                                <h5 class="font-bold mb-3 uppercase text-sm" data-key="diyBayArea">Bay Area Resources:</h5>
                                 <ul class="list-disc list-inside space-y-2">
-                                    <li><strong>UC Berkeley ATDP:</strong> Challenging summer courses. (Grades K-11)</li>
-                                    <li><strong>Stanford Pre-Collegiate Studies:</strong> Deep dives into university-level topics. (High School)</li>
-                                    <li><strong>California Academy of Sciences Internship:</strong> Authentic scientific research. (High School)</li>
+                                    <li data-key="diyPillar1Bay1">UC Berkeley ATDP: Challenging summer courses. (Grades K-11)</li>
+                                    <li data-key="diyPillar1Bay2">Stanford Pre-Collegiate Studies: Deep dives into university-level topics. (High School)</li>
+                                    <li data-key="diyPillar1Bay3">California Academy of Sciences Internship: Authentic scientific research. (High School)</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                      <div class="border-2 border-black">
                         <div class="accordion-toggle flex justify-between items-center w-full p-4 text-left bg-black text-white hover:bg-[var(--color-primary)]">
-                            <h3 class="text-xl font-bold uppercase">Pillar 2: Design Thinking</h3>
+                            <h3 class="text-xl font-bold uppercase" data-key="diyPillar2Title">Pillar 2: Design Thinking</h3>
                             <span class="accordion-arrow transform text-3xl font-mono">›</span>
                         </div>
                         <div class="accordion-content p-0 bg-white">
                              <div class="p-6">
-                                <h4 class="font-bold mb-2 uppercase">Strategy:</h4>
-                                <p class="mb-6">Replicate the I-Lab by finding opportunities to "learn by doing" and creating prototypes. Focus on hands-on creation and embracing failure.</p>
-                                <h5 class="font-bold mb-3 uppercase text-sm">Online Resources:</h5>
+                                <h4 class="font-bold mb-2 uppercase" data-key="diyStrategy">Strategy:</h4>
+                                <p class="mb-6" data-key="diyPillar2Strategy">Replicate the I-Lab by finding opportunities to "learn by doing" and creating prototypes. Focus on hands-on creation and embracing failure.</p>
+                                <h5 class="font-bold mb-3 uppercase text-sm" data-key="diyOnline">Online Resources:</h5>
                                 <ul class="list-disc list-inside space-y-2 mb-6">
-                                    <li><strong>IDEO U:</strong> Online Design Thinking courses. (Motivated High Schoolers)</li>
-                                    <li><strong>Outschool:</strong> Project-based classes like 3D printing or Scratch. (Ages 3-18)</li>
-                                    <li><strong>iD Tech:</strong> Intensive tech camps to build a tangible project. (Ages 7-19)</li>
+                                    <li data-key="diyPillar2Online1">IDEO U: Online Design Thinking courses. (Motivated High Schoolers)</li>
+                                    <li data-key="diyPillar2Online2">Outschool: Project-based classes like 3D printing or Scratch. (Ages 3-18)</li>
+                                    <li data-key="diyPillar2Online3">iD Tech: Intensive tech camps to build a tangible project. (Ages 7-19)</li>
                                 </ul>
-                                <h5 class="font-bold mb-3 uppercase text-sm">Bay Area Resources:</h5>
+                                <h5 class="font-bold mb-3 uppercase text-sm" data-key="diyBayArea">Bay Area Resources:</h5>
                                 <ul class="list-disc list-inside space-y-2">
-                                    <li><strong>The Exploratorium (SF):</strong> Tinkering Studio for hands-on invention. (All Ages)</li>
-                                    <li><strong>The Crucible (Oakland):</strong> Industrial arts classes. (Ages 8-18)</li>
-                                    <li><strong>Galileo Camps (Various):</strong> Summer camps focused on innovation. (Grades Pre-K - 10th)</li>
+                                    <li data-key="diyPillar2Bay1">The Exploratorium (SF): Tinkering Studio for hands-on invention. (All Ages)</li>
+                                    <li data-key="diyPillar2Bay2">The Crucible (Oakland): Industrial arts classes. (Ages 8-18)</li>
+                                    <li data-key="diyPillar2Bay3">Galileo Camps (Various): Summer camps focused on innovation. (Grades Pre-K - 10th)</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                      <div class="border-2 border-black">
                         <div class="accordion-toggle flex justify-between items-center w-full p-4 text-left bg-black text-white hover:bg-[var(--color-primary)]">
-                            <h3 class="text-xl font-bold uppercase">Pillar 3: SEL</h3>
+                            <h3 class="text-xl font-bold uppercase" data-key="diyPillar3Title">Pillar 3: SEL</h3>
                             <span class="accordion-arrow transform text-3xl font-mono">›</span>
                         </div>
                         <div class="accordion-content p-0 bg-white">
                              <div class="p-6">
-                                <h4 class="font-bold mb-2 uppercase">Strategy:</h4>
-                                <p class="mb-6">Replicate the "Beloved Community" by seeking experiences that require teamwork and empathy. Goal: develop "soft skills" for collaboration.</p>
-                                <h5 class="font-bold mb-3 uppercase text-sm">Online Resources:</h5>
+                                <h4 class="font-bold mb-2 uppercase" data-key="diyStrategy">Strategy:</h4>
+                                <p class="mb-6" data-key="diyPillar3Strategy">Replicate the "Beloved Community" by seeking experiences that require teamwork and empathy. Goal: develop "soft skills" for collaboration.</p>
+                                <h5 class="font-bold mb-3 uppercase text-sm" data-key="diyOnline">Online Resources:</h5>
                                 <ul class="list-disc list-inside space-y-2 mb-6">
-                                    <li><strong>Synthesis:</strong> Team-based, game-based problem-solving. (Ages 8-14)</li>
-                                    <li><strong>Outschool:</strong> Live classes on debate or collaborative storytelling. (Ages 5-18)</li>
-                                    <li><strong>Model UN / Mock Trial:</strong> Online clubs for negotiation and public speaking. (Middle/High School)</li>
+                                    <li data-key="diyPillar3Online1">Synthesis: Team-based, game-based problem-solving. (Ages 8-14)</li>
+                                    <li data-key="diyPillar3Online2">Outschool: Live classes on debate or collaborative storytelling. (Ages 5-18)</li>
+                                    <li data-key="diyPillar3Online3">Model UN / Mock Trial: Online clubs for negotiation and public speaking. (Middle/High School)</li>
                                 </ul>
-                                <h5 class="font-bold mb-3 uppercase text-sm">Bay Area Resources:</h5>
+                                <h5 class="font-bold mb-3 uppercase text-sm" data-key="diyBayArea">Bay Area Resources:</h5>
                                 <ul class="list-disc list-inside space-y-2">
-                                    <li><strong>American Conservatory Theater (SF):</strong> Acting classes to build confidence and empathy. (Ages 8-19)</li>
-                                    <li><strong>Bay Area Debate Club (Various):</strong> Classes and tournaments for critical thinking. (Middle/High School)</li>
-                                    <li><strong>SF-Marin Food Bank (SF):</strong> Volunteering for community awareness. (Ages 11+ with adult)</li>
+                                    <li data-key="diyPillar3Bay1">American Conservatory Theater (SF): Acting classes to build confidence and empathy. (Ages 8-19)</li>
+                                    <li data-key="diyPillar3Bay2">Bay Area Debate Club (Various): Classes and tournaments for critical thinking. (Middle/High School)</li>
+                                    <li data-key="diyPillar3Bay3">SF-Marin Food Bank (SF): Volunteering for community awareness. (Ages 11+ with adult)</li>
                                 </ul>
                             </div>
                         </div>
@@ -323,23 +345,66 @@
         
         <footer class="text-center mt-20 border-t-4 border-black pt-10 scroll-reveal">
              <div class="p-6 max-w-2xl mx-auto border-4 border-black bg-white shadow-[8px_8px_0_0_rgba(0,0,0,1)]">
-                <h3 class="text-lg font-bold mb-4 uppercase">Share This Analysis</h3>
+                <h3 class="text-lg font-bold mb-4 uppercase" data-key="footerShareTitle">Share This Analysis</h3>
                 <div class="flex flex-wrap justify-center items-center gap-3">
-                    <button id="share-twitter" class="px-4 py-2 bg-black text-white text-sm font-bold uppercase border-2 border-black hover:bg-[var(--color-primary)]">Twitter</button>
-                    <button id="share-linkedin" class="px-4 py-2 bg-black text-white text-sm font-bold uppercase border-2 border-black hover:bg-[var(--color-primary)]">LinkedIn</button>
-                    <button id="copy-link-btn" class="px-4 py-2 bg-black text-white text-sm font-bold uppercase border-2 border-black hover:bg-[var(--color-primary)]">Copy Link</button>
+                    <button id="share-twitter" class="px-4 py-2 bg-black text-white text-sm font-bold uppercase border-2 border-black hover:bg-[var(--color-primary)]" data-key="footerTwitter">Twitter</button>
+                    <button id="share-linkedin" class="px-4 py-2 bg-black text-white text-sm font-bold uppercase border-2 border-black hover:bg-[var(--color-primary)]" data-key="footerLinkedIn">LinkedIn</button>
+                    <button id="copy-link-btn" class="px-4 py-2 bg-black text-white text-sm font-bold uppercase border-2 border-black hover:bg-[var(--color-primary)]" data-key="footerCopy">Copy Link</button>
                 </div>
                 <div id="copy-message" class="text-sm text-black mt-3 h-4 font-bold"></div>
             </div>
-            <p class="text-xs mt-8 opacity-70">WEBSITE SYNTHESIZES DATA FROM "THE NUEVA SCHOOL: AN ANALYTICAL DEEP DIVE" REPORT. VIZ CREATED WITH CHART.JS/HTML/CSS. NO SVG/MERMAID JS USED.</p>
+            <p class="text-xs mt-8 opacity-70" data-key="footerDisclaimer">WEBSITE SYNTHESIZES DATA FROM "THE NUEVA SCHOOL: AN ANALYTICAL DEEP DIVE" REPORT. VIZ CREATED WITH CHART.JS/HTML/CSS. NO SVG/MERMAID JS USED.</p>
         </footer>
 
     </div>
-
+    
+    <script src="content/en.js"></script>
+    <script src="content/zh.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const profileCtx = document.getElementById('studentProfileChart');
-            if(profileCtx) { new Chart(profileCtx, { type: 'doughnut', data: { labels: ['Intrinsic Motivation', 'Creative Confidence', 'Emotional Acuity', 'Collaborative Spirit'], datasets: [{ label: 'Student Profile', data: [30, 25, 25, 20], backgroundColor: ['#E9C46A', '#2A9D8F', '#F4A261', '#E76F51'], hoverOffset: 8, borderColor: '#2A363B', borderWidth: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { color: '#FDF8F0', font: { family: 'DM Sans', weight: 'bold' } } }, tooltip: { bodyFont: { family: 'DM Sans' }, titleFont: { family: 'DM Sans', weight: 'bold' }, callbacks: { title: (items) => items[0].label } } } } }); }
+            const content = {
+                en: contentEN,
+                zh: contentZH
+            };
+
+            let chartInstance;
+            
+            function createChart(lang) {
+                const profileCtx = document.getElementById('studentProfileChart');
+                if (!profileCtx) return;
+                if(chartInstance) {
+                    chartInstance.destroy();
+                }
+                chartInstance = new Chart(profileCtx, { 
+                    type: 'doughnut', 
+                    data: content[lang].chartData, 
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { color: '#FDF8F0', font: { family: 'DM Sans', weight: 'bold' } } }, tooltip: { bodyFont: { family: 'DM Sans' }, titleFont: { family: 'DM Sans', weight: 'bold' }, callbacks: { title: (items) => items[0].label } } } }
+                });
+            }
+
+            function setLanguage(lang) {
+                if (lang !== 'en' && lang !== 'zh') lang = 'en';
+
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.dataset.key;
+                    if (content[lang][key]) {
+                        if (el.classList.contains('prose')) {
+                            el.innerHTML = content[lang][key];
+                        } else {
+                            el.textContent = content[lang][key];
+                        }
+                    }
+                });
+                
+                document.documentElement.lang = lang;
+                localStorage.setItem('preferredLanguage', lang);
+
+                document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
+                document.getElementById(`lang-${lang}`).classList.add('active');
+                document.getElementById(`lang-${lang}-mobile`).classList.add('active');
+                
+                createChart(lang);
+            }
 
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -382,6 +447,31 @@
                     }
                 });
             });
+            
+            const fullAnalysisToggles = document.querySelectorAll('.full-analysis-toggle');
+            fullAnalysisToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const targetId = toggle.dataset.target;
+                    const contentEl = document.getElementById(targetId);
+                    const isHidden = contentEl.style.maxHeight === '0px' || !contentEl.style.maxHeight;
+                    const lang = localStorage.getItem('preferredLanguage') || 'en';
+
+                    if(isHidden) {
+                        const proseDiv = contentEl.querySelector('.prose');
+                        proseDiv.innerHTML = content[lang][proseDiv.dataset.key];
+
+                        contentEl.style.marginTop = '0px';
+                        contentEl.style.opacity = '1';
+                        contentEl.style.maxHeight = contentEl.scrollHeight + 'px';
+                        toggle.textContent = content[lang]['hideFullAnalysisBtn'];
+                    } else {
+                        contentEl.style.maxHeight = '0px';
+                        contentEl.style.opacity = '0';
+                        setTimeout(() => { contentEl.style.marginTop = '0'; }, 800);
+                        toggle.textContent = content[lang]['readFullAnalysisBtn'];
+                    }
+                });
+            });
 
             const menuBtn = document.getElementById('menu-btn');
             const closeMenuBtn = document.getElementById('close-menu-btn');
@@ -408,22 +498,38 @@
             });
             
             const pageUrl = window.location.href;
-            const pageTitle = "Deconstructing Genius: An Analysis of The Nueva School";
+            
             document.getElementById('share-twitter').addEventListener('click', () => {
-                window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(pageTitle)}`, '_blank');
+                const lang = localStorage.getItem('preferredLanguage') || 'en';
+                const title = content[lang]['pageTitle'];
+                window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(title)}`, '_blank');
             });
             document.getElementById('share-linkedin').addEventListener('click', () => {
-                window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(pageTitle)}`, '_blank');
+                 const lang = localStorage.getItem('preferredLanguage') || 'en';
+                const title = content[lang]['pageTitle'];
+                window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(title)}`, '_blank');
             });
 
             const copyBtn = document.getElementById('copy-link-btn');
             const copyMsg = document.getElementById('copy-message');
             copyBtn.addEventListener('click', () => {
                 navigator.clipboard.writeText(pageUrl).then(() => {
-                    copyMsg.textContent = 'LINK COPIED!';
+                    const lang = localStorage.getItem('preferredLanguage') || 'en';
+                    copyMsg.textContent = content[lang]['copySuccess'];
                     setTimeout(() => { copyMsg.textContent = ''; }, 2000);
                 });
             });
+
+            const langButtons = document.querySelectorAll('.lang-switch button');
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lang = btn.id.startsWith('lang-en') ? 'en' : 'zh';
+                    setLanguage(lang);
+                });
+            });
+
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            setLanguage(preferredLanguage);
         });
     </script>
 </body>
