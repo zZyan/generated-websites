@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBBBA Financial Impact Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Language Content Files -->
+    <script src="https://storage.googleapis.com/gemini-prod-us-west4-5935/v1/4b1e51b312b1a99577527c81ab1d619914107198a287a918e95055fa05c8794c" defer></script> <!-- en.js -->
+    <script src="https://storage.googleapis.com/gemini-prod-us-west4-5935/v1/2569f2441cc4a2d8d8b948f654f5c97042898c56d773957a0752b047f0709f18" defer></script> <!-- zh.js -->
+
+    <style>
+        /* Bold & Retro "Memphis" Style v6 */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            color: #000000; 
+        }
+        h1, h2, .heading-font-main {
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        h3, .heading-font-script {
+             font-family: 'Kalam', cursive;
+        }
+        .retro-card {
+            background-color: white;
+            border: 3px solid #000000;
+            padding: 1.5rem;
+            position: relative;
+        }
+        .retro-card::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: -12px;
+            bottom: -12px;
+            background-color: #FFD100; /* Yellow */
+            z-index: -1;
+            border: 3px solid #000;
+        }
+        .policy-card {
+            background-color: white;
+            border: 3px solid #000000;
+            padding: 1.5rem;
+            position: relative;
+        }
+        .policy-card::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: -12px;
+            bottom: -12px;
+            background-image: repeating-linear-gradient(45deg, black, black 4px, white 4px, white 8px);
+            z-index: -1;
+            border: 3px solid #000;
+        }
+        .dot-pattern {
+            background-image: radial-gradient(black 1px, transparent 1px);
+            background-size: 15px 15px;
+        }
+        .full-width-pattern-section {
+            background-color: #00EAD3;
+            background-image: repeating-linear-gradient(45deg, #00c7b2 25%, transparent 25%, transparent 75%, #00c7b2 75%, #00c7b2), repeating-linear-gradient(-45deg, #00c7b2 25%, transparent 25%, transparent 75%, #00c7b2 75%, #00c7b2);
+            background-position: 0 0, 15px 15px;
+            background-size: 30px 30px;
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+            margin-left: calc(50% - 50vw);
+            margin-right: calc(50% - 50vw);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .kpi-value {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            line-height: 1;
+            font-family: 'Anton', sans-serif;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #000;
+            border-radius: 0;
+            background-color: #ffffff;
+            color: #000;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px #FF00A5; /* Magenta */
+        }
+        .form-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #000;
+        }
+        details > summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: #000;
+            list-style: none;
+            padding: 1rem;
+            background-color: #00EAD3; /* Cyan */
+            border: 2px solid #000;
+            transition: background-color 0.2s;
+        }
+        details > summary:hover {
+            background-color: #00c7b2;
+        }
+        details[open] > summary {
+             background-color: #00c7b2;
+        }
+        details .faq-content {
+            padding: 1rem;
+            background-color: #ffffff;
+            border: 2px solid #000;
+            border-top: none;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .details-small > summary {
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            border: 2px solid #000;
+            background-color: #FFD100;
+            color: #000;
+        }
+        .details-small[open] > summary {
+            background-color: #e6bb00;
+        }
+        .details-small .faq-content {
+            font-size: 0.75rem;
+            background-color: #fff;
+            color: #333;
+            border-color: #000;
+        }
+        .comparison-table td, .comparison-table th {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 2px solid #000;
+        }
+        .comparison-table th {
+            background-color: #FFD100;
+            color: #000;
+        }
+        .info-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: #000;
+            color: white;
+            font-family: serif;
+            font-style: italic;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+        .info-icon .tooltip-text {
+            visibility: hidden;
+            width: 240px;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            border: 2px solid #fff;
+            padding: 8px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -120px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem;
+            font-weight: normal;
+            line-height: 1.4;
+        }
+        .info-icon:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        .main-button {
+            background-color: #FF00A5;
+            color: white;
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            transition: all 0.2s;
+        }
+        .main-button:hover {
+            box-shadow: 3px 3px 0px #000;
+            transform: translate(3px, 3px);
+        }
+        .chart-title {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+    <header class="text-center py-20 px-4 bg-[#FFD100] border-b-4 border-black relative">
+        <h1 data-i18n="headerTitle" class="text-5xl md:text-8xl font-bold mb-3 text-black"></h1>
+        <p data-i18n="headerSubtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-gray-800 font-semibold"></p>
+        <button id="lang-toggle" data-i18n="langToggle" class="absolute top-4 right-4 bg-black text-white py-2 px-4 font-semibold hover:bg-gray-800 transition-colors"></button>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 space-y-20">
+
+        <section id="summary">
+            <h2 data-i18n="summaryTitle" class="text-4xl font-bold text-center mb-12"></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+                <div class="retro-card text-center dot-pattern">
+                    <h3 data-i18n="kpiTaxCuts" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 bg-white inline-block px-2"></h3>
+                    <p class="kpi-value text-red-500">-$4.5T</p>
+                </div>
+                 <div class="retro-card text-center">
+                    <h3 data-i18n="kpiSpendingReductions" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 text-center"></h3>
+                    <p class="kpi-value text-green-500">+$1.2T</p>
+                </div>
+                <div class="retro-card text-center dot-pattern">
+                    <h3 data-i18n="kpiNetDebtIncrease" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 bg-white inline-block px-2"></h3>
+                    <p class="kpi-value text-orange-500">-$3.3T</p>
+                </div>
+            </div>
+             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16 items-start">
+                 <div class="retro-card p-6 text-center">
+                    <h3 data-i18n="chartTitle" class="text-2xl font-bold text-gray-800 mb-4 bg-white inline-block px-2 chart-title heading-font-script"></h3>
+                    <div class="chart-container">
+                        <canvas id="fiscalImpactChart"></canvas>
+                    </div>
+                </div>
+                <div class="space-y-4 pt-4 lg:pt-0">
+                    <h2 data-i18n="breakdownTitle" class="text-3xl font-bold text-center mb-4"></h2>
+                     <details>
+                        <summary data-i18n="faqDebtTitle"></summary>
+                        <div class="faq-content">
+                            <p data-i18n="faqDebtContent"></p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary data-i18n="faqPersonalFinanceTitle"></summary>
+                        <div class="faq-content">
+                            <p data-i18n="faqPersonalFinanceContent"></p>
+                        </div>
+                    </details>
+                     <details>
+                        <summary data-i18n="faqEconomistsTitle"></summary>
+                        <div class="faq-content space-y-4">
+                            <blockquote class="border-l-4 border-black pl-4">
+                                <p data-i18n="quoteSummers" class="italic"></p>
+                                <cite data-i18n="quoteSummersCite" class="block text-right not-italic text-sm font-semibold mt-2"></cite>
+                            </blockquote>
+                             <blockquote class="border-l-4 border-black pl-4">
+                                <p data-i18n="quoteLustig" class="italic"></p>
+                                <cite data-i18n="quoteLustigCite" class="block text-right not-italic text-sm font-semibold mt-2"></cite>
+                            </blockquote>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="policy-details">
+            <h2 data-i18n="policyTitle" class="text-4xl font-bold text-center mb-8"></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="policy-card">
+                    <h3 data-i18n="glowUpsTitle" class="text-2xl font-bold text-gray-800 mb-4 heading-font-script"></h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="saltDeductionTitle" class="font-semibold"></strong><br><span data-i18n="saltDeductionDesc" class="text-sm text-slate-600"></span></div></li>
+                        <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="childTaxCreditTitle" class="font-semibold"></strong><br><span data-i18n="childTaxCreditDesc" class="text-sm text-slate-600"></span></div></li>
+                         <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="tipOvertimeTitle" class="font-semibold"></strong><br><span data-i18n="tipOvertimeDesc" class="text-sm text-slate-600"></span></div></li>
+                    </ul>
+                </div>
+                <div class="policy-card">
+                    <h3 data-i18n="nerfsTitle" class="text-2xl font-bold text-gray-800 mb-4 heading-font-script"></h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="repealEnergyTitle" class="font-semibold"></strong><br><span data-i18n="repealEnergyDesc" class="text-sm text-slate-600"></span></div></li>
+                         <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="energyCostTitle" class="font-semibold"></strong><br><span data-i18n="energyCostDesc" class="text-sm text-slate-600"></span></div></li>
+                         <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="socialProgramsTitle" class="font-semibold"></strong><br><span data-i18n="socialProgramsDesc" class="text-sm text-slate-600"></span></div></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="full-width-pattern-section">
+            <section id="calculator" class="retro-card p-8 container mx-auto">
+                <h2 data-i18n="calculatorTitle" class="text-4xl font-bold text-center text-black mb-2 bg-white inline-block px-2"></h2>
+                <p data-i18n="calculatorSubtitle" class="text-center text-gray-700 mb-8 bg-white inline-block px-2"></p>
+                <form id="impact-form" class="max-w-3xl mx-auto space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="agi" data-i18n="agiLabel" class="form-label"></label>
+                            <input type="number" id="agi" class="form-input" placeholder="e.g., 85000" required>
+                        </div>
+                        <div>
+                            <label for="state" data-i18n="stateLabel" class="form-label"></label>
+                            <select id="state" class="form-input" required></select>
+                            <details class="details-small mt-2">
+                                <summary data-i18n="stateTooltipTitle"></summary>
+                                <div class="faq-content">
+                                    <p data-i18n="stateTooltipContent"></p>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                    <div>
+                        <label data-i18n="filingStatusLabel" class="form-label"></label>
+                        <div class="flex gap-4 items-center">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filingStatus" value="single" class="h-5 w-5 text-black focus:ring-black" checked> <span data-i18n="filingStatusSingle"></span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filingStatus" value="mfj" class="h-5 w-5 text-black focus:ring-black"> <span data-i18n="filingStatusMfj"></span></label>
+                        </div>
+                    </div>
+
+                    <details class="pt-4">
+                        <summary data-i18n="advancedOptions" class="heading-font-script text-lg"></summary>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 p-4 bg-white border-2 border-black">
+                            <div>
+                                <label for="children" data-i18n="childrenLabel" class="form-label"></label>
+                                <input type="number" id="children" class="form-input" placeholder="0" value="0">
+                            </div>
+                            <div>
+                                <label for="property-tax" data-i18n="propertyTaxLabel" class="form-label"></label>
+                                <input type="number" id="property-tax" class="form-input" placeholder="e.g., 4500" value="0">
+                            </div>
+                            <div>
+                                <label for="overtime" data-i18n="overtimeLabel" class="form-label"></label>
+                                <input type="number" id="overtime" class="form-input" placeholder="e.g., 5000" value="0">
+                                <p data-i18n="overtimeDesc" class="text-xs text-slate-500 mt-1"></p>
+                            </div>
+                            <div>
+                                <label for="tips" data-i18n="tipsLabel" class="form-label"></label>
+                                <input type="number" id="tips" class="form-input" placeholder="e.g., 10000" value="0">
+                                <p data-i18n="tipsDesc" class="text-xs text-slate-500 mt-1"></p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600">
+                                    <input type="checkbox" id="ev-solar" class="h-4 w-4 rounded text-black focus:ring-black">
+                                    <span data-i18n="evSolarLabel"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </details>
+                    
+                    <div class="text-center pt-6">
+                        <button type="submit" data-i18n="calculateButton" class="main-button font-bold py-3 px-8 text-lg heading-font-main"></button>
+                    </div>
+                </form>
+            </section>
+        </div>
+        
+        <section id="comparison-output" class="hidden">
+             <h2 data-i18n="comparisonTitle" class="text-4xl font-bold text-center text-black mb-8"></h2>
+             <div class="retro-card p-4 md:p-8" style="--card-color: #00EAD3;">
+                 <div class="overflow-x-auto">
+                    <table class="w-full text-sm md:text-base comparison-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="metricHeader" class="w-1/4"></th>
+                                <th data-i18n="preTcjaHeader" class="w-1/4 text-center"></th>
+                                <th data-i18n="currentLawHeader" class="w-1/4 text-center"></th>
+                                <th data-i18n="obbbaHeader" class="w-1/4 text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-body">
+                        </tbody>
+                    </table>
+                 </div>
+                 <div data-i18n="comparisonFootnote" class="mt-4 p-4 bg-gray-100 border-2 border-dashed border-black text-sm">
+                 </div>
+                 <div id="ev-solar-note" class="hidden mt-6 p-4 bg-yellow-100 text-yellow-800 border-2 border-black">
+                    <p><span data-i18n="evSolarNoteTitle"></span> <span data-i18n="evSolarNoteContent"></span></p>
+                 </div>
+             </div>
+        </section>
+
+        <section id="tax-rate-explanation" class="hidden">
+             <div class="retro-card mt-8 p-6">
+                 <h3 data-i18n="taxRateTitle" class="text-2xl font-bold text-center text-black mb-4 heading-font-script"></h3>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                     <div>
+                         <h4 data-i18n="marginalRateLabel" class="font-semibold text-gray-700"></h4>
+                         <p id="marginal-rate-output" class="text-xl md:text-2xl font-bold text-black">--% | --% | --%</p>
+                         <p data-i18n="marginalRateDesc" class="text-sm text-slate-500 mt-2"></p>
+                     </div>
+                      <div>
+                         <h4 data-i18n="averageRateLabel" class="font-semibold text-gray-700"></h4>
+                         <p id="average-rate-output" class="text-xl md:text-2xl font-bold text-black">--% | --% | --%</p>
+                         <p data-i18n="averageRateDesc" class="text-sm text-slate-500 mt-2"></p>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center mt-16 py-8 px-4 border-t-4 border-black bg-white">
+        <div class="max-w-4xl mx-auto p-4 bg-red-100 text-red-800 border-2 border-black">
+             <p data-i18n="disclaimerTitle" class="font-bold text-lg"></p>
+             <p data-i18n="disclaimerContent" class="text-sm mt-2"></p>
+        </div>
+        <p data-i18n="footerDate" class="text-slate-500 text-sm mt-8"></p>
+    </footer>
+
+    <!-- Coded by zZyan | github.com/zZyan -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- I18n and Content Logic ---
+            let currentLang = 'en';
+            let i18nData = {};
+            const elements = document.querySelectorAll('[data-i18n]');
+
+            async function loadContent() {
+                // In a real app, you might fetch this from a server
+                // For this example, we assume `en` and `zh` objects are loaded from the script tags
+                i18nData = currentLang === 'en' ? en : zh;
+                updateUI();
+            }
+
+            function updateUI() {
+                if (!i18nData) return;
+                elements.forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (i18nData[key]) {
+                        el.innerHTML = i18nData[key];
+                    }
+                });
+                // Update dynamic content that is not present on page load
+                document.documentElement.lang = currentLang;
+            }
+
+            const langToggle = document.getElementById('lang-toggle');
+            langToggle.addEventListener('click', () => {
+                currentLang = currentLang === 'en' ? 'zh' : 'en';
+                loadContent();
+                // We need to re-run calculation if results are visible
+                 if (document.getElementById('comparison-output').style.display === 'block'){
+                     document.getElementById('impact-form').dispatchEvent(new Event('submit', { cancelable: true }));
+                 }
+            });
+
+
+            // --- Calculator Logic ---
+            const fiscalImpactCanvas = document.getElementById('fiscalImpactChart');
+            if (fiscalImpactCanvas) {
+                const fiscalImpactCtx = fiscalImpactCanvas.getContext('2d');
+                Chart.defaults.color = '#000000';
+                Chart.defaults.font.family = "'Poppins', sans-serif";
+                new Chart(fiscalImpactCtx, { type: 'bar', data: { labels: ['Spending Reductions', 'Tax Cuts'], datasets: [{ label: '10-Year Fiscal Impact', data: [1.2, -4.5], backgroundColor: (context) => { const value = context.dataset.data[context.dataIndex]; return value > 0 ? '#00EAD3' : '#FF00A5'; }, borderWidth: 2, borderColor: '#000', }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { grid: { color: '#e0e0e0' }, ticks: { callback: function(value) { return `$${value}T`; }, color: '#000' }, title: { display: true, text: 'Impact in Trillions of Dollars', font: { weight: '700', size: 14 } } }, y: { grid: { display: false }, ticks: { color: '#000' } } }, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#000', titleColor: '#fff', bodyColor: '#eee', callbacks: { label: function(context) { return `${context.label}: $${context.raw} Trillion`; } } } } } });
+            }
+
+            const states = { "AL": 0.05, "AK": 0, "AZ": 0.025, "AR": 0.049, "CA": 0.093, "CO": 0.044, "CT": 0.055, "DE": 0.066, "FL": 0, "GA": 0.0549, "HI": 0.0825, "ID": 0.058, "IL": 0.0495, "IN": 0.0315, "IA": 0.057, "KS": 0.057, "KY": 0.045, "LA": 0.0425, "ME": 0.0715, "MD": 0.0575, "MA": 0.05, "MI": 0.0425, "MN": 0.0785, "MS": 0.05, "MO": 0.0495, "MT": 0.0675, "NE": 0.0664, "NV": 0, "NH": 0, "NJ": 0.0897, "NM": 0.059, "NY": 0.0685, "NC": 0.0475, "ND": 0.025, "OH": 0.0399, "OK": 0.0475, "OR": 0.099, "PA": 0.0307, "RI": 0.0599, "SC": 0.065, "SD": 0, "TN": 0, "TX": 0, "UT": 0.0485, "VT": 0.0875, "VA": 0.0575, "WA": 0, "WV": 0.0512, "WI": 0.0765, "WY": 0 };
+            const stateSelect = document.getElementById('state');
+            Object.keys(states).forEach(key => { const option = document.createElement('option'); option.value = key; option.textContent = key; stateSelect.appendChild(option); });
+            stateSelect.value = "CA";
+            const taxBrackets2017 = { single: [ { rate: 0.10, min: 0, max: 9325 }, { rate: 0.15, min: 9325, max: 37950 }, { rate: 0.25, min: 37950, max: 91900 }, { rate: 0.28, min: 91900, max: 191650 }, { rate: 0.33, min: 191650, max: 416700 }, { rate: 0.35, min: 416700, max: 418400 }, { rate: 0.396, min: 418400, max: Infinity } ], mfj: [ { rate: 0.10, min: 0, max: 18650 }, { rate: 0.15, min: 18650, max: 75900 }, { rate: 0.25, min: 75900, max: 153100 }, { rate: 0.28, min: 153100, max: 233350 }, { rate: 0.33, min: 233350, max: 416700 }, { rate: 0.35, min: 416700, max: 470700 }, { rate: 0.396, min: 470700, max: Infinity } ] };
+            const taxBrackets2025 = { single: [ { rate: 0.10, min: 0, max: 11925 }, { rate: 0.12, min: 11925, max: 48475 }, { rate: 0.22, min: 48475, max: 103350 }, { rate: 0.24, min: 103350, max: 197300 }, { rate: 0.32, min: 197300, max: 250525 }, { rate: 0.35, min: 250525, max: 626350 }, { rate: 0.37, min: 626350, max: Infinity } ], mfj: [ { rate: 0.10, min: 0, max: 23850 }, { rate: 0.12, min: 23850, max: 96950 }, { rate: 0.22, min: 96950, max: 206700 }, { rate: 0.24, min: 206700, max: 394600 }, { rate: 0.32, min: 394600, max: 501050 }, { rate: 0.35, min: 501050, max: 751600 }, { rate: 0.37, min: 751600, max: Infinity } ] };
+            const standardDeductions = { preTCJA: { single: 6350, mfj: 12700 }, current: { single: 15000, mfj: 30000 }, obbba: { single: 15750, mfj: 31500 } };
+            const personalExemption2017 = 4050;
+            function calculateTax(income, filingStatus, brackets) { let tax = 0; let remainingIncome = income; for (const bracket of brackets[filingStatus]) { if (remainingIncome > bracket.min) { const taxableInBracket = Math.min(remainingIncome, bracket.max) - bracket.min; tax += taxableInBracket * bracket.rate; } } return tax > 0 ? tax : 0; }
+            function formatCurrency(amount) { return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+            function createInfoIcon(tooltipText) { return `<div class="info-icon">?<span class="tooltip-text">${tooltipText}</span></div>`; }
+            
+            document.getElementById('impact-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const agi = parseFloat(document.getElementById('agi').value) || 0;
+                const state = document.getElementById('state').value;
+                const filingStatus = document.querySelector('input[name="filingStatus"]:checked').value;
+                const children = parseInt(document.getElementById('children').value) || 0;
+                const propertyTax = parseFloat(document.getElementById('property-tax').value) || 0;
+                const overtime = parseFloat(document.getElementById('overtime').value) || 0;
+                const tips = parseFloat(document.getElementById('tips').value) || 0;
+                const planningEV = document.getElementById('ev-solar').checked;
+                const stateTaxRate = states[state];
+                const stateIncomeTax = agi * stateTaxRate;
+                const totalSaltPaid = stateIncomeTax + propertyTax;
+                const results = { preTCJA: {}, current: {}, obbba: {} };
+                
+                const standardDed2017 = standardDeductions.preTCJA[filingStatus];
+                const itemizedDed2017 = totalSaltPaid;
+                const totalDed2017 = Math.max(standardDed2017, itemizedDed2017);
+                const exemptionsValue2017 = (filingStatus === 'single' ? 1 + children : 2 + children) * personalExemption2017;
+                results.preTCJA.totalDeductions = totalDed2017 + exemptionsValue2017;
+                results.preTCJA.taxableIncome = Math.max(0, agi - results.preTCJA.totalDeductions);
+                const taxLiability2017 = calculateTax(results.preTCJA.taxableIncome, filingStatus, taxBrackets2017);
+                const ctcThreshold2017 = filingStatus === 'single' ? 75000 : 110000;
+                const ctcPhaseOut2017 = Math.floor(Math.max(0, agi - ctcThreshold2017) / 1000) * 50;
+                results.preTCJA.ctc = Math.max(0, (children * 1000) - ctcPhaseOut2017);
+                results.preTCJA.finalTax = Math.max(0, taxLiability2017 - results.preTCJA.ctc);
+
+                const standardDedCurrent = standardDeductions.current[filingStatus];
+                const saltDedCurrent = Math.min(totalSaltPaid, 10000);
+                results.current.totalDeductions = Math.max(standardDedCurrent, saltDedCurrent);
+                results.current.taxableIncome = Math.max(0, agi - results.current.totalDeductions);
+                const taxLiabilityCurrent = calculateTax(results.current.taxableIncome, filingStatus, taxBrackets2025);
+                results.current.ctc = children * 2000;
+                results.current.finalTax = Math.max(0, taxLiabilityCurrent - results.current.ctc);
+
+                const overtimeDedCap = filingStatus === 'single' ? 12500 : 25000;
+                const tipDedCap = 25000;
+                let overtimeDed = Math.min(overtime, overtimeDedCap);
+                let tipDed = Math.min(tips, tipDedCap);
+                const specialIncomePhaseoutThreshold = filingStatus === 'single' ? 150000 : 300000;
+                if(agi > specialIncomePhaseoutThreshold){ overtimeDed = 0; tipDed = 0; }
+                const specialDedAfter = overtimeDed + tipDed;
+                const agiAfterSpecialDeds = agi - specialDedAfter;
+
+                const phaseoutThreshold = 500000;
+                let saltCapAfter = (agi <= phaseoutThreshold) ? 40000 : 10000;
+
+                const saltDedAfter = Math.min(totalSaltPaid, saltCapAfter);
+                const standardDedAfter = standardDeductions.obbba[filingStatus];
+                results.obbba.totalDeductions = Math.max(standardDedAfter, saltDedAfter);
+                
+                results.obbba.taxableIncome = Math.max(0, agiAfterSpecialDeds - results.obbba.totalDeductions);
+                const taxLiabilityAfter = calculateTax(results.obbba.taxableIncome, filingStatus, taxBrackets2025);
+                results.obbba.ctc = children * 2200;
+                results.obbba.finalTax = Math.max(0, taxLiabilityAfter - results.obbba.ctc);
+                
+                const tooltipPreTCJA = `Max(${formatCurrency(standardDed2017)}, ${formatCurrency(itemizedDed2017)}) + ${formatCurrency(exemptionsValue2017)} (Exemptions)`;
+                const tooltipCurrent = `Max(Std Ded ${formatCurrency(standardDedCurrent)}, SALT Ded ${formatCurrency(saltDedCurrent)})`;
+                const tooltipOBBBA = `Max(Std Ded ${formatCurrency(standardDedAfter)}, SALT Ded ${formatCurrency(saltCapAfter.toFixed(0))})`;
+
+                const comparisonBody = document.getElementById('comparison-body');
+                comparisonBody.innerHTML = `
+                    <tr>
+                        <td>${i18nData.deductionsRow}</td>
+                        <td class="text-center">${formatCurrency(results.preTCJA.totalDeductions)} ${createInfoIcon(tooltipPreTCJA)}</td>
+                        <td class="text-center">${formatCurrency(results.current.totalDeductions)} ${createInfoIcon(tooltipCurrent)}</td>
+                        <td class="text-center font-semibold">${formatCurrency(results.obbba.totalDeductions)} ${createInfoIcon(tooltipOBBBA)}</td>
+                    </tr>
+                    <tr>
+                        <td>${i18nData.taxableIncomeRow} ${createInfoIcon(i18nData.taxableIncomeTooltip)}</td>
+                        <td class="text-center">${formatCurrency(results.preTCJA.taxableIncome)}</td>
+                        <td class="text-center">${formatCurrency(results.current.taxableIncome)}</td>
+                        <td class="text-center font-semibold">${formatCurrency(results.obbba.taxableIncome)}</td>
+                    </tr>
+                    <tr>
+                        <td>${i18nData.ctcRow} ${createInfoIcon(i18nData.ctcTooltip)}</td>
+                        <td class="text-center">${formatCurrency(results.preTCJA.ctc)}</td>
+                        <td class="text-center">${formatCurrency(results.current.ctc)}</td>
+                        <td class="text-center font-semibold">${formatCurrency(results.obbba.ctc)}</td>
+                    </tr>
+                    <tr class="font-bold bg-gray-200">
+                        <td>${i18nData.taxLiabilityRow} ${createInfoIcon(i18nData.taxLiabilityTooltip)}</td>
+                        <td class="text-center">${formatCurrency(results.preTCJA.finalTax)}</td>
+                        <td class="text-center">${formatCurrency(results.current.finalTax)}</td>
+                        <td class="text-center">${formatCurrency(results.obbba.finalTax)}</td>
+                    </tr>
+                    <tr class="text-xl font-bold bg-green-200 text-green-800">
+                        <td>${i18nData.netSavingsRow}</td>
+                        <td colspan="3" class="text-center">${formatCurrency(results.preTCJA.finalTax - results.obbba.finalTax)}</td>
+                    </tr>
+                `;
+
+                document.getElementById('ev-solar-note').style.display = planningEV ? 'block' : 'none';
+                document.getElementById('comparison-output').style.display = 'block';
+                function getMarginalRate(income, filingStatus, brackets) { for (const bracket of brackets[filingStatus]) { if (income <= bracket.max) return bracket.rate; } return brackets[filingStatus][brackets[filingStatus].length - 1].rate; }
+                const marginalRatePreTCJA = getMarginalRate(results.preTCJA.taxableIncome, filingStatus, taxBrackets2017) * 100;
+                const marginalRateCurrent = getMarginalRate(results.current.taxableIncome, filingStatus, taxBrackets2025) * 100;
+                const marginalRateOBBBA = getMarginalRate(results.obbba.taxableIncome, filingStatus, taxBrackets2025) * 100;
+                const avgEffectiveRatePreTCJA = agi > 0 ? (results.preTCJA.finalTax / agi) * 100 : 0;
+                const avgEffectiveRateCurrent = agi > 0 ? (results.current.finalTax / agi) * 100 : 0;
+                const avgEffectiveRateOBBBA = agi > 0 ? (results.obbba.finalTax / agi) * 100 : 0;
+                document.getElementById('marginal-rate-output').innerHTML = `<span class="text-gray-500">${marginalRatePreTCJA.toFixed(1)}%</span> | <span class="text-gray-500">${marginalRateCurrent.toFixed(1)}%</span> | <span class="text-black">${marginalRateOBBBA.toFixed(1)}%</span>`;
+                document.getElementById('average-rate-output').innerHTML = `<span class="text-gray-500">${avgEffectiveRatePreTCJA.toFixed(2)}%</span> | <span class="text-gray-500">${avgEffectiveRateCurrent.toFixed(2)}%</span> | <span class="text-black">${avgEffectiveRateOBBBA.toFixed(2)}%</span>`;
+                document.getElementById('tax-rate-explanation').style.display = 'block';
+                document.getElementById('comparison-output').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Initial load
+            loadContent();
+        });
+    </script>
+</body>
+</html>
