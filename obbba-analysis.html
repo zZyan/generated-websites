@@ -10,9 +10,170 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Language Content Files -->
-    <script src="https://storage.googleapis.com/gemini-prod-us-west4-5935/v1/4b1e51b312b1a99577527c81ab1d619914107198a287a918e95055fa05c8794c" defer></script> <!-- en.js -->
-    <script src="https://storage.googleapis.com/gemini-prod-us-west4-5935/v1/2569f2441cc4a2d8d8b948f654f5c97042898c56d773957a0752b047f0709f18" defer></script> <!-- zh.js -->
+    <!-- Embedded Language Content Files -->
+    <script>
+        /**
+         * English content for the OBBBA Financial Impact Analyzer.
+         */
+        const en = {
+            headerTitle: "OBBBA Impact Analyzer",
+            headerSubtitle: "An analysis of the financial effects of the \"One Big Beautiful Bill Act\".",
+            langToggle: "中文",
+            summaryTitle: "Fiscal Vibe Check (10-Year Outlook)",
+            kpiTaxCuts: "Tax Cuts",
+            kpiSpendingReductions: "Spending<br>Reductions",
+            kpiNetDebtIncrease: "Net Debt Increase",
+            chartTitle: "Fiscal Action Comparison",
+            breakdownTitle: "The Breakdown",
+            faqDebtTitle: "Economic Impact of Higher National Debt?",
+            faqDebtContent: "Increased national debt can lead to higher interest rates, which raises borrowing costs for consumers and businesses. It may also exert downward pressure on the US dollar's value and contribute to inflation, potentially reducing household purchasing power over time.",
+            faqPersonalFinanceTitle: "Long-Term Impact on Personal Finances?",
+            faqPersonalFinanceContent: "Potential short-term tax savings could be offset over the long term by higher interest rates on loans, inflation, and increased costs for healthcare and energy due to cuts in federal programs and the repeal of clean energy incentives.",
+            faqEconomistsTitle: "What Top Economists Say",
+            quoteSummers: `"Large-scale, unfunded tax cuts are a recipe for higher inflation and will ultimately burden future generations with unsustainable debt."`,
+            quoteSummersCite: "- Larry Summers",
+            quoteLustig: `"The convenience yield on government debt is a key indicator. Fiscal policies that dramatically increase the supply of debt without a clear path to repayment risk eroding that advantage, leading to higher financing costs for the government."`,
+            quoteLustigCite: "- Hanno Lustig",
+            policyTitle: "The Main Character Changes",
+            glowUpsTitle: "The Glow Ups (Tax Breaks)",
+            saltDeductionTitle: "SALT Deduction Cap Increase",
+            saltDeductionDesc: "The cap is raised to $40,000 for taxpayers with AGI of $500,000 or less. The cap reverts to $10,000 for those with higher incomes.",
+            childTaxCreditTitle: "Child Tax Credit Enhancement",
+            childTaxCreditDesc: "The credit is permanently increased from $2,000 to $2,200 per child.",
+            tipOvertimeTitle: "Tip & Overtime Deductions",
+            tipOvertimeDesc: "A temporary deduction for federal income tax on tip and overtime pay is created.",
+            nerfsTitle: "The Nerfs (Cost Increases)",
+            repealEnergyTitle: "Repeal of Energy Credits",
+            repealEnergyDesc: "Federal tax credits for EVs and residential solar installations are scheduled to end after 2025.",
+            energyCostTitle: "Projected Energy Cost Increases",
+            energyCostDesc: "Analysis indicates the rollback of clean energy incentives may lead to higher average household energy costs.",
+            socialProgramsTitle: "Cuts to Social Programs",
+            socialProgramsDesc: "Changes to Medicaid and SNAP eligibility may increase out-of-pocket costs for affected households.",
+            calculatorTitle: "Your Personal Impact Calc",
+            calculatorSubtitle: "Enter your deets for a personalized estimate.",
+            agiLabel: "Adjusted Gross Income (AGI)",
+            stateLabel: "State of Residence",
+            stateTooltipTitle: "Why does this matter?",
+            stateTooltipContent: "The 2017 TCJA introduced a $10k cap on deducting State & Local Taxes (SALT), which primarily affected residents of high-tax states. The OBBBA temporarily raises this cap, providing significant, direct relief to those same states while having little effect on low-tax states.",
+            filingStatusLabel: "Filing Status",
+            filingStatusSingle: "Single",
+            filingStatusMfj: "Married Filing Jointly",
+            advancedOptions: "Advanced Options",
+            childrenLabel: "Number of Children (under 17)",
+            propertyTaxLabel: "Annual Property Tax",
+            overtimeLabel: "Annual Overtime Income",
+            overtimeDesc: "OBBBA deduction max $12.5k (Single) / $25k (Joint).",
+            tipsLabel: "Annual Tip Income",
+            tipsDesc: "OBBBA deduction max $25k.",
+            evSolarLabel: "I am planning EV or Solar upgrades after 2025.",
+            calculateButton: "Calculate Impact",
+            comparisonTitle: "Personalized Comparison",
+            metricHeader: "Metric",
+            preTcjaHeader: "Pre-TCJA Law (2017)",
+            currentLawHeader: "Current Law (2025)",
+            obbbaHeader: "OBBBA (Post-Bill)",
+            comparisonFootnote: "<strong>Why the Pre-TCJA comparison?</strong> Since the major provisions of the 2017 Tax Cuts and Jobs Act (TCJA) are set to expire, the Pre-TCJA law becomes the effective baseline for measuring the impact of new legislation.",
+            evSolarNoteTitle: "<strong>Note:</strong>",
+            evSolarNoteContent: "Under the OBBBA, the $7,500 EV tax credit and 30% residential solar credit are scheduled to expire after Dec 31, 2025. Future project costs may be higher.",
+            deductionsRow: "Total Deductions",
+            taxableIncomeRow: "Taxable Income",
+            taxableIncomeTooltip: "Your income after all deductions. This is the amount your tax is calculated on.",
+            ctcRow: "Child Tax Credit (CTC)",
+            ctcTooltip: "A dollar-for-dollar reduction of your tax liability for each qualifying child.",
+            taxLiabilityRow: "Est. Federal Tax Liability",
+            taxLiabilityTooltip: "Your final estimated tax bill. Calculated as: (Tax on Taxable Income) - (Total Credits).",
+            netSavingsRow: "Net Savings (vs. Pre-TCJA Law)",
+            taxRateTitle: "Tax Rate Analysis",
+            marginalRateLabel: "Marginal Tax Rate",
+            marginalRateDesc: "The tax rate paid on the next dollar of taxable income.",
+            averageRateLabel: "Average Effective Tax Rate",
+            averageRateDesc: "The actual percentage of total income paid in federal tax.",
+            disclaimerTitle: "⚠️ Important Disclaimer ⚠️",
+            disclaimerContent: "This tool provides simplified estimations for illustrative and educational purposes only. It is not a substitute for professional financial or tax advice. Tax laws are complex and subject to change. The OBBBA calculations are based on the latest available information and may not reflect the final version of the bill. Consult with a qualified professional before making any financial decisions.",
+            footerDate: "Data based on public reports and CBO analysis as of July 4, 2025."
+        };
+
+        /**
+         * Chinese content for the OBBBA Financial Impact Analyzer.
+         */
+        const zh = {
+            headerTitle: "OBBBA 影响分析器",
+            headerSubtitle: "分析“一项伟大法案”的财务影响。",
+            langToggle: "English",
+            summaryTitle: "财政状况检查 (10年展望)",
+            kpiTaxCuts: "减税",
+            kpiSpendingReductions: "支出<br>削减",
+            kpiNetDebtIncrease: "净债务增加",
+            chartTitle: "财政行动比较",
+            breakdownTitle: "详细分析",
+            faqDebtTitle: "国债增加的经济影响？",
+            faqDebtContent: "国债增加可能导致利率上升，从而增加消费者和企业的借贷成本。这也可能对美元价值构成下行压力并导致通货膨胀，从而可能随着时间的推移降低家庭购买力。",
+            faqPersonalFinanceTitle: "对个人财务的长期影响？",
+            faqPersonalFinanceContent: "短期的税收节省可能会被贷款利率上升、通货膨胀以及因联邦项目削减和清洁能源激励措施废除而增加的医疗和能源成本所抵消。",
+            faqEconomistsTitle: "顶尖经济学家怎么说",
+            quoteSummers: "“大规模、无资金支持的减税是导致通货膨胀加剧的根源，最终将使后代背上不可持续的债务。”",
+            quoteSummersCite: "- 拉里·萨默斯",
+            quoteLustig: "“政府债务的便利收益率是一个关键指标。在没有明确偿还路径的情况下大幅增加债务供给的财政政策，有可能侵蚀这一优势，导致政府融资成本上升。”",
+            quoteLustigCite: "- 汉诺·卢斯蒂格",
+            policyTitle: "主要政策变化",
+            glowUpsTitle: "利好 (税收优惠)",
+            saltDeductionTitle: "州和地方税 (SALT) 抵免上限提高",
+            saltDeductionDesc: "对于AGI为$500,000或以下的纳税人，上限提高到$40,000。对于收入较高者，上限恢复到$10,000。",
+            childTaxCreditTitle: "儿童税收抵免增强",
+            childTaxCreditDesc: "每名儿童的抵免额从$2,000永久增加到$2,200。",
+            tipOvertimeTitle: "小费和加班费抵免",
+            tipOvertimeDesc: "为小费和加班费的联邦所得税创建了临时抵免。",
+            nerfsTitle: "削弱 (成本增加)",
+            repealEnergyTitle: "废除能源抵免",
+            repealEnergyDesc: "电动汽车和住宅太阳能装置的联邦税收抵免计划于2025年后结束。",
+            energyCostTitle: "预计能源成本增加",
+            energyCostDesc: "分析表明，取消清洁能源激励措施可能导致家庭平均能源成本上升。",
+            socialProgramsTitle: "削减社会项目",
+            socialProgramsDesc: "Medicaid和SNAP资格的变更可能会增加受影响家庭的自付费用。",
+            calculatorTitle: "您的个人影响计算",
+            calculatorSubtitle: "输入您的信息以获得个性化估算。",
+            agiLabel: "调整后总收入 (AGI)",
+            stateLabel: "居住州",
+            stateTooltipTitle: "这为什么重要？",
+            stateTooltipContent: "2017年的TCJA对州和地方税（SALT）的抵免上限设定为$10k，这主要影响了高税收州的居民。OBBBA暂时提高了这一上限，为这些州的居民提供了显著的直接救济，而对低税收州的影响很小。",
+            filingStatusLabel: "报税身份",
+            filingStatusSingle: "单身",
+            filingStatusMfj: "夫妻联合报税",
+            advancedOptions: "高级选项",
+            childrenLabel: "子女数量 (17岁以下)",
+            propertyTaxLabel: "年度房产税",
+            overtimeLabel: "年度加班收入",
+            overtimeDesc: "OBBBA 抵免上限：单身$12.5k / 联合$25k。",
+            tipsLabel: "年度小费收入",
+            tipsDesc: "OBBBA 抵免上限：$25k。",
+            evSolarLabel: "我计划在2025年后进行电动汽车或太阳能升级。",
+            calculateButton: "计算影响",
+            comparisonTitle: "个性化比较",
+            metricHeader: "指标",
+            preTcjaHeader: "TCJA前法律 (2017)",
+            currentLawHeader: "现行法律 (2025)",
+            obbbaHeader: "OBBBA (法案后)",
+            comparisonFootnote: "<strong>为什么要与TCJA前的法律比较？</strong> 由于2017年《减税与就业法案》(TCJA) 的主要条款即将到期，TCJA前的法律成为衡量新立法影响的有效基准。",
+            evSolarNoteTitle: "<strong>注意:</strong>",
+            evSolarNoteContent: "根据OBBBA，价值$7,500的电动汽车税收抵免和30%的住宅太阳能抵免计划于2025年12月31日后到期。未来的项目成本可能会更高。",
+            deductionsRow: "总抵免额",
+            taxableIncomeRow: "应税收入",
+            taxableIncomeTooltip: "扣除所有可抵免项目后的收入。您的税款是根据这个数额计算的。",
+            ctcRow: "儿童税收抵免 (CTC)",
+            ctcTooltip: "为每个符合条件的子女提供的逐元减税。",
+            taxLiabilityRow: "预估联邦应纳税额",
+            taxLiabilityTooltip: "您的最终预估税单。计算公式为：（应税收入的税款）-（总抵免额）。",
+            netSavingsRow: "净节省 (与TCJA前法律相比)",
+            taxRateTitle: "税率分析",
+            marginalRateLabel: "边际税率",
+            marginalRateDesc: "下一美元应税收入所支付的税率。",
+            averageRateLabel: "平均有效税率",
+            averageRateDesc: "总收入中实际支付的联邦税百分比。",
+            disclaimerTitle: "⚠️ 重要免责声明 ⚠️",
+            disclaimerContent: "本工具仅为说明和教育目的提供简化估算。它不能替代专业的财务或税务建议。税法复杂且可能发生变化。OBBBA的计算基于最新可用信息，可能不反映法案的最终版本。在做出任何财务决定之前，请咨询合格的专业人士。",
+            footerDate: "数据基于截至2025年7月4日的公开报告和CBO分析。"
+        };
+    </script>
 
     <style>
         /* Bold & Retro "Memphis" Style v6 */
@@ -226,60 +387,60 @@
 <body class="antialiased overflow-x-hidden">
 
     <header class="text-center py-20 px-4 bg-[#FFD100] border-b-4 border-black relative">
-        <h1 data-i18n="headerTitle" class="text-5xl md:text-8xl font-bold mb-3 text-black">OBBBA Impact Analyzer</h1>
-        <p data-i18n="headerSubtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-gray-800 font-semibold">An analysis of the financial effects of the "One Big Beautiful Bill Act".</p>
-        <button id="lang-toggle" data-i18n="langToggle" class="absolute top-4 right-4 bg-black text-white py-2 px-4 font-semibold hover:bg-gray-800 transition-colors">中文</button>
+        <h1 data-i18n="headerTitle" class="text-5xl md:text-8xl font-bold mb-3 text-black"></h1>
+        <p data-i18n="headerSubtitle" class="text-lg md:text-xl max-w-3xl mx-auto text-gray-800 font-semibold"></p>
+        <button id="lang-toggle" data-i18n="langToggle" class="absolute top-4 right-4 bg-black text-white py-2 px-4 font-semibold hover:bg-gray-800 transition-colors"></button>
     </header>
 
     <main class="container mx-auto p-4 md:p-8 space-y-20">
 
         <section id="summary">
-            <h2 data-i18n="summaryTitle" class="text-4xl font-bold text-center mb-12">Fiscal Vibe Check (10-Year Outlook)</h2>
+            <h2 data-i18n="summaryTitle" class="text-4xl font-bold text-center mb-12"></h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
                 <div class="retro-card text-center dot-pattern">
-                    <h3 data-i18n="kpiTaxCuts" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 bg-white inline-block px-2">Tax Cuts</h3>
+                    <h3 data-i18n="kpiTaxCuts" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 bg-white inline-block px-2"></h3>
                     <p class="kpi-value text-red-500">-$4.5T</p>
                 </div>
                  <div class="retro-card text-center">
-                    <h3 data-i18n="kpiSpendingReductions" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 text-center">Spending<br>Reductions</h3>
+                    <h3 data-i18n="kpiSpendingReductions" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 text-center"></h3>
                     <p class="kpi-value text-green-500">+$1.2T</p>
                 </div>
                 <div class="retro-card text-center dot-pattern">
-                    <h3 data-i18n="kpiNetDebtIncrease" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 bg-white inline-block px-2">Net Debt Increase</h3>
+                    <h3 data-i18n="kpiNetDebtIncrease" class="text-2xl heading-font-script font-bold text-gray-800 mb-2 bg-white inline-block px-2"></h3>
                     <p class="kpi-value text-orange-500">-$3.3T</p>
                 </div>
             </div>
              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16 items-start">
                  <div class="retro-card p-6 text-center">
-                    <h3 data-i18n="chartTitle" class="text-2xl font-bold text-gray-800 mb-4 bg-white inline-block px-2 chart-title heading-font-script">Fiscal Action Comparison</h3>
+                    <h3 data-i18n="chartTitle" class="text-2xl font-bold text-gray-800 mb-4 bg-white inline-block px-2 chart-title heading-font-script"></h3>
                     <div class="chart-container">
                         <canvas id="fiscalImpactChart"></canvas>
                     </div>
                 </div>
                 <div class="space-y-4 pt-4 lg:pt-0">
-                    <h2 data-i18n="breakdownTitle" class="text-3xl font-bold text-center mb-4">The Breakdown</h2>
+                    <h2 data-i18n="breakdownTitle" class="text-3xl font-bold text-center mb-4"></h2>
                      <details>
-                        <summary data-i18n="faqDebtTitle">Economic Impact of Higher National Debt?</summary>
+                        <summary data-i18n="faqDebtTitle"></summary>
                         <div class="faq-content">
-                            <p data-i18n="faqDebtContent">Increased national debt can lead to higher interest rates, which raises borrowing costs for consumers and businesses. It may also exert downward pressure on the US dollar's value and contribute to inflation, potentially reducing household purchasing power over time.</p>
+                            <p data-i18n="faqDebtContent"></p>
                         </div>
                     </details>
                     <details>
-                        <summary data-i18n="faqPersonalFinanceTitle">Long-Term Impact on Personal Finances?</summary>
+                        <summary data-i18n="faqPersonalFinanceTitle"></summary>
                         <div class="faq-content">
-                            <p data-i18n="faqPersonalFinanceContent">Potential short-term tax savings could be offset over the long term by higher interest rates on loans, inflation, and increased costs for healthcare and energy due to cuts in federal programs and the repeal of clean energy incentives.</p>
+                            <p data-i18n="faqPersonalFinanceContent"></p>
                         </div>
                     </details>
                      <details>
-                        <summary data-i18n="faqEconomistsTitle">What Top Economists Say</summary>
+                        <summary data-i18n="faqEconomistsTitle"></summary>
                         <div class="faq-content space-y-4">
                             <blockquote class="border-l-4 border-black pl-4">
-                                <p data-i18n="quoteSummers" class="italic">"Large-scale, unfunded tax cuts are a recipe for higher inflation and will ultimately burden future generations with unsustainable debt."</p>
-                                <cite data-i18n="quoteSummersCite" class="block text-right not-italic text-sm font-semibold mt-2">- Larry Summers</cite>
+                                <p data-i18n="quoteSummers" class="italic"></p>
+                                <cite data-i18n="quoteSummersCite" class="block text-right not-italic text-sm font-semibold mt-2"></cite>
                             </blockquote>
                              <blockquote class="border-l-4 border-black pl-4">
-                                <p data-i18n="quoteLustig" class="italic">"The convenience yield on government debt is a key indicator. Fiscal policies that dramatically increase the supply of debt without a clear path to repayment risk eroding that advantage, leading to higher financing costs for the government."</p>
-                                <cite data-i18n="quoteLustigCite" class="block text-right not-italic text-sm font-semibold mt-2">- Hanno Lustig</cite>
+                                <p data-i18n="quoteLustig" class="italic"></p>
+                                <cite data-i18n="quoteLustigCite" class="block text-right not-italic text-sm font-semibold mt-2"></cite>
                             </blockquote>
                         </div>
                     </details>
@@ -288,22 +449,22 @@
         </section>
 
         <section id="policy-details">
-            <h2 data-i18n="policyTitle" class="text-4xl font-bold text-center mb-8">The Main Character Changes</h2>
+            <h2 data-i18n="policyTitle" class="text-4xl font-bold text-center mb-8"></h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div class="policy-card">
-                    <h3 data-i18n="glowUpsTitle" class="text-2xl font-bold text-gray-800 mb-4 heading-font-script">The Glow Ups (Tax Breaks)</h3>
+                    <h3 data-i18n="glowUpsTitle" class="text-2xl font-bold text-gray-800 mb-4 heading-font-script"></h3>
                     <ul class="space-y-4">
-                        <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="saltDeductionTitle" class="font-semibold">SALT Deduction Cap Increase</strong><br><span data-i18n="saltDeductionDesc" class="text-sm text-slate-600">The cap is raised to $40,000 for taxpayers with AGI of $500,000 or less. The cap reverts to $10,000 for those with higher incomes.</span></div></li>
-                        <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="childTaxCreditTitle" class="font-semibold">Child Tax Credit Enhancement</strong><br><span data-i18n="childTaxCreditDesc" class="text-sm text-slate-600">The credit is permanently increased from $2,000 to $2,200 per child.</span></div></li>
-                         <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="tipOvertimeTitle" class="font-semibold">Tip & Overtime Deductions</strong><br><span data-i18n="tipOvertimeDesc" class="text-sm text-slate-600">A temporary deduction for federal income tax on tip and overtime pay is created.</span></div></li>
+                        <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="saltDeductionTitle" class="font-semibold"></strong><br><span data-i18n="saltDeductionDesc" class="text-sm text-slate-600"></span></div></li>
+                        <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="childTaxCreditTitle" class="font-semibold"></strong><br><span data-i18n="childTaxCreditDesc" class="text-sm text-slate-600"></span></div></li>
+                         <li class="flex items-start"><span class="text-2xl mr-4">👍</span><div><strong data-i18n="tipOvertimeTitle" class="font-semibold"></strong><br><span data-i18n="tipOvertimeDesc" class="text-sm text-slate-600"></span></div></li>
                     </ul>
                 </div>
                 <div class="policy-card">
-                    <h3 data-i18n="nerfsTitle" class="text-2xl font-bold text-gray-800 mb-4 heading-font-script">The Nerfs (Cost Increases)</h3>
+                    <h3 data-i18n="nerfsTitle" class="text-2xl font-bold text-gray-800 mb-4 heading-font-script"></h3>
                     <ul class="space-y-4">
-                        <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="repealEnergyTitle" class="font-semibold">Repeal of Energy Credits</strong><br><span data-i18n="repealEnergyDesc" class="text-sm text-slate-600">Federal tax credits for EVs and residential solar installations are scheduled to end after 2025.</span></div></li>
-                         <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="energyCostTitle" class="font-semibold">Projected Energy Cost Increases</strong><br><span data-i18n="energyCostDesc" class="text-sm text-slate-600">Analysis indicates the rollback of clean energy incentives may lead to higher average household energy costs.</span></div></li>
-                         <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="socialProgramsTitle" class="font-semibold">Cuts to Social Programs</strong><br><span data-i18n="socialProgramsDesc" class="text-sm text-slate-600">Changes to Medicaid and SNAP eligibility may increase out-of-pocket costs for affected households.</span></div></li>
+                        <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="repealEnergyTitle" class="font-semibold"></strong><br><span data-i18n="repealEnergyDesc" class="text-sm text-slate-600"></span></div></li>
+                         <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="energyCostTitle" class="font-semibold"></strong><br><span data-i18n="energyCostDesc" class="text-sm text-slate-600"></span></div></li>
+                         <li class="flex items-start"><span class="text-2xl mr-4">👎</span><div><strong data-i18n="socialProgramsTitle" class="font-semibold"></strong><br><span data-i18n="socialProgramsDesc" class="text-sm text-slate-600"></span></div></li>
                     </ul>
                 </div>
             </div>
@@ -311,81 +472,81 @@
 
         <div class="full-width-pattern-section">
             <section id="calculator" class="retro-card p-8 container mx-auto">
-                <h2 data-i18n="calculatorTitle" class="text-4xl font-bold text-center text-black mb-2 bg-white inline-block px-2">Your Personal Impact Calc</h2>
-                <p data-i18n="calculatorSubtitle" class="text-center text-gray-700 mb-8 bg-white inline-block px-2">Enter your deets for a personalized estimate.</p>
+                <h2 data-i18n="calculatorTitle" class="text-4xl font-bold text-center text-black mb-2 bg-white inline-block px-2"></h2>
+                <p data-i18n="calculatorSubtitle" class="text-center text-gray-700 mb-8 bg-white inline-block px-2"></p>
                 <form id="impact-form" class="max-w-3xl mx-auto space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="agi" data-i18n="agiLabel" class="form-label">Adjusted Gross Income (AGI)</label>
+                            <label for="agi" data-i18n="agiLabel" class="form-label"></label>
                             <input type="number" id="agi" class="form-input" placeholder="e.g., 85000" required>
                         </div>
                         <div>
-                            <label for="state" data-i18n="stateLabel" class="form-label">State of Residence</label>
+                            <label for="state" data-i18n="stateLabel" class="form-label"></label>
                             <select id="state" class="form-input" required></select>
                             <details class="details-small mt-2">
-                                <summary data-i18n="stateTooltipTitle">Why does this matter?</summary>
+                                <summary data-i18n="stateTooltipTitle"></summary>
                                 <div class="faq-content">
-                                    <p data-i18n="stateTooltipContent">The 2017 TCJA introduced a $10k cap on deducting State & Local Taxes (SALT), which primarily affected residents of high-tax states. The OBBBA temporarily raises this cap, providing significant, direct relief to those same states while having little effect on low-tax states.</p>
+                                    <p data-i18n="stateTooltipContent"></p>
                                 </div>
                             </details>
                         </div>
                     </div>
                     <div>
-                        <label data-i18n="filingStatusLabel" class="form-label">Filing Status</label>
+                        <label data-i18n="filingStatusLabel" class="form-label"></label>
                         <div class="flex gap-4 items-center">
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filingStatus" value="single" class="h-5 w-5 text-black focus:ring-black" checked> <span data-i18n="filingStatusSingle">Single</span></label>
-                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filingStatus" value="mfj" class="h-5 w-5 text-black focus:ring-black"> <span data-i18n="filingStatusMfj">Married Filing Jointly</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filingStatus" value="single" class="h-5 w-5 text-black focus:ring-black" checked> <span data-i18n="filingStatusSingle"></span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="filingStatus" value="mfj" class="h-5 w-5 text-black focus:ring-black"> <span data-i18n="filingStatusMfj"></span></label>
                         </div>
                     </div>
 
                     <details class="pt-4">
-                        <summary data-i18n="advancedOptions" class="heading-font-script text-lg">Advanced Options</summary>
+                        <summary data-i18n="advancedOptions" class="heading-font-script text-lg"></summary>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 p-4 bg-white border-2 border-black">
                             <div>
-                                <label for="children" data-i18n="childrenLabel" class="form-label">Number of Children (under 17)</label>
+                                <label for="children" data-i18n="childrenLabel" class="form-label"></label>
                                 <input type="number" id="children" class="form-input" placeholder="0" value="0">
                             </div>
                             <div>
-                                <label for="property-tax" data-i18n="propertyTaxLabel" class="form-label">Annual Property Tax</label>
+                                <label for="property-tax" data-i18n="propertyTaxLabel" class="form-label"></label>
                                 <input type="number" id="property-tax" class="form-input" placeholder="e.g., 4500" value="0">
                             </div>
                             <div>
-                                <label for="overtime" data-i18n="overtimeLabel" class="form-label">Annual Overtime Income</label>
+                                <label for="overtime" data-i18n="overtimeLabel" class="form-label"></label>
                                 <input type="number" id="overtime" class="form-input" placeholder="e.g., 5000" value="0">
-                                <p data-i18n="overtimeDesc" class="text-xs text-slate-500 mt-1">OBBBA deduction max $12.5k (Single) / $25k (Joint).</p>
+                                <p data-i18n="overtimeDesc" class="text-xs text-slate-500 mt-1"></p>
                             </div>
                             <div>
-                                <label for="tips" data-i18n="tipsLabel" class="form-label">Annual Tip Income</label>
+                                <label for="tips" data-i18n="tipsLabel" class="form-label"></label>
                                 <input type="number" id="tips" class="form-input" placeholder="e.g., 10000" value="0">
-                                <p data-i18n="tipsDesc" class="text-xs text-slate-500 mt-1">OBBBA deduction max $25k.</p>
+                                <p data-i18n="tipsDesc" class="text-xs text-slate-500 mt-1"></p>
                             </div>
                             <div class="md:col-span-2">
                                 <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600">
                                     <input type="checkbox" id="ev-solar" class="h-4 w-4 rounded text-black focus:ring-black">
-                                    <span data-i18n="evSolarLabel">I am planning EV or Solar upgrades after 2025.</span>
+                                    <span data-i18n="evSolarLabel"></span>
                                 </label>
                             </div>
                         </div>
                     </details>
                     
                     <div class="text-center pt-6">
-                        <button type="submit" data-i18n="calculateButton" class="main-button font-bold py-3 px-8 text-lg heading-font-main">Calculate Impact</button>
+                        <button type="submit" data-i18n="calculateButton" class="main-button font-bold py-3 px-8 text-lg heading-font-main"></button>
                     </div>
                 </form>
             </section>
         </div>
         
         <section id="comparison-output" class="hidden">
-             <h2 data-i18n="comparisonTitle" class="text-4xl font-bold text-center text-black mb-8">Personalized Comparison</h2>
+             <h2 data-i18n="comparisonTitle" class="text-4xl font-bold text-center text-black mb-8"></h2>
              <div class="retro-card p-4 md:p-8" style="--card-color: #00EAD3;">
                  <div class="overflow-x-auto">
                     <table class="w-full text-sm md:text-base comparison-table">
                         <thead>
                             <tr>
-                                <th data-i18n="metricHeader" class="w-1/4">Metric</th>
-                                <th data-i18n="preTcjaHeader" class="w-1/4 text-center">Pre-TCJA Law (2017)</th>
-                                <th data-i18n="currentLawHeader" class="w-1/4 text-center">Current Law (2025)</th>
-                                <th data-i18n="obbbaHeader" class="w-1/4 text-center">OBBBA (Post-Bill)</th>
+                                <th data-i18n="metricHeader" class="w-1/4"></th>
+                                <th data-i18n="preTcjaHeader" class="w-1/4 text-center"></th>
+                                <th data-i18n="currentLawHeader" class="w-1/4 text-center"></th>
+                                <th data-i18n="obbbaHeader" class="w-1/4 text-center"></th>
                             </tr>
                         </thead>
                         <tbody id="comparison-body">
@@ -393,27 +554,26 @@
                     </table>
                  </div>
                  <div data-i18n="comparisonFootnote" class="mt-4 p-4 bg-gray-100 border-2 border-dashed border-black text-sm">
-                    <strong>Why the Pre-TCJA comparison?</strong> Since the major provisions of the 2017 Tax Cuts and Jobs Act (TCJA) are set to expire, the Pre-TCJA law becomes the effective baseline for measuring the impact of new legislation.
                  </div>
                  <div id="ev-solar-note" class="hidden mt-6 p-4 bg-yellow-100 text-yellow-800 border-2 border-black">
-                    <p><span data-i18n="evSolarNoteTitle"><strong>Note:</strong></span> <span data-i18n="evSolarNoteContent">Under the OBBBA, the $7,500 EV tax credit and 30% residential solar credit are scheduled to expire after Dec 31, 2025. Future project costs may be higher.</span></p>
+                    <p><span data-i18n="evSolarNoteTitle"></span> <span data-i18n="evSolarNoteContent"></span></p>
                  </div>
              </div>
         </section>
 
         <section id="tax-rate-explanation" class="hidden">
              <div class="retro-card mt-8 p-6">
-                 <h3 data-i18n="taxRateTitle" class="text-2xl font-bold text-center text-black mb-4 heading-font-script">Tax Rate Analysis</h3>
+                 <h3 data-i18n="taxRateTitle" class="text-2xl font-bold text-center text-black mb-4 heading-font-script"></h3>
                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
                      <div>
-                         <h4 data-i18n="marginalRateLabel" class="font-semibold text-gray-700">Marginal Tax Rate</h4>
+                         <h4 data-i18n="marginalRateLabel" class="font-semibold text-gray-700"></h4>
                          <p id="marginal-rate-output" class="text-xl md:text-2xl font-bold text-black">--% | --% | --%</p>
-                         <p data-i18n="marginalRateDesc" class="text-sm text-slate-500 mt-2">The tax rate paid on the next dollar of taxable income.</p>
+                         <p data-i18n="marginalRateDesc" class="text-sm text-slate-500 mt-2"></p>
                      </div>
                       <div>
-                         <h4 data-i18n="averageRateLabel" class="font-semibold text-gray-700">Average Effective Tax Rate</h4>
+                         <h4 data-i18n="averageRateLabel" class="font-semibold text-gray-700"></h4>
                          <p id="average-rate-output" class="text-xl md:text-2xl font-bold text-black">--% | --% | --%</p>
-                         <p data-i18n="averageRateDesc" class="text-sm text-slate-500 mt-2">The actual percentage of total income paid in federal tax.</p>
+                         <p data-i18n="averageRateDesc" class="text-sm text-slate-500 mt-2"></p>
                      </div>
                  </div>
              </div>
@@ -423,10 +583,10 @@
     
     <footer class="text-center mt-16 py-8 px-4 border-t-4 border-black bg-white">
         <div class="max-w-4xl mx-auto p-4 bg-red-100 text-red-800 border-2 border-black">
-             <p data-i18n="disclaimerTitle" class="font-bold text-lg">⚠️ Important Disclaimer ⚠️</p>
-             <p data-i18n="disclaimerContent" class="text-sm mt-2">This tool provides simplified estimations for illustrative and educational purposes only. It is not a substitute for professional financial or tax advice. Tax laws are complex and subject to change. The OBBBA calculations are based on the latest available information and may not reflect the final version of the bill. Consult with a qualified professional before making any financial decisions.</p>
+             <p data-i18n="disclaimerTitle" class="font-bold text-lg"></p>
+             <p data-i18n="disclaimerContent" class="text-sm mt-2"></p>
         </div>
-        <p data-i18n="footerDate" class="text-slate-500 text-sm mt-8">Data based on public reports and CBO analysis as of July 4, 2025.</p>
+        <p data-i18n="footerDate" class="text-slate-500 text-sm mt-8"></p>
     </footer>
 
     <!-- Coded by zZyan | github.com/zZyan -->
@@ -437,17 +597,14 @@
             const elements = document.querySelectorAll('[data-i18n]');
 
             function updateUI(lang) {
-                // Ensure content scripts are loaded
-                if (typeof en === 'undefined' || typeof zh === 'undefined') {
-                    console.error("Language files are not loaded yet.");
-                    return;
-                }
-                
+                // The 'en' and 'zh' objects are now in the global scope from the script tags in the <head>
                 const i18nData = lang === 'en' ? en : zh;
                 
                 elements.forEach(el => {
                     const key = el.getAttribute('data-i18n');
                     if (i18nData[key]) {
+                        // For elements that might contain child elements (like spans), it's safer to just set textContent of the parent.
+                        // However, since some of our content has <br> or <strong>, innerHTML is necessary here.
                         el.innerHTML = i18nData[key];
                     }
                 });
@@ -460,6 +617,7 @@
                 updateUI(currentLang);
                 // We need to re-run calculation if results are visible to update table headers/labels
                  if (document.getElementById('comparison-output').style.display === 'block'){
+                     // The preventDefault is not strictly needed here but it's good practice for programmatic submissions.
                      document.getElementById('impact-form').dispatchEvent(new Event('submit', { cancelable: true }));
                  }
             });
@@ -594,9 +752,8 @@
                 document.getElementById('comparison-output').scrollIntoView({ behavior: 'smooth' });
             });
 
-            // Initial load
-            // The HTML body now contains the default English text, so no initial call is needed on page load.
-            // The UI will be updated only when the language is toggled.
+            // Initial UI population
+            updateUI(currentLang);
         });
     </script>
 </body>
